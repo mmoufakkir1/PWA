@@ -1,0 +1,10 @@
+//--Global Actions
+export const UPDATE_SELECTED_PAGE = 'UPDATE_SELECTED_PAGE';
+export const UPDATE_SELECTED_PAGE_OPTIONS = 'UPDATE_SELECTED_PAGE_OPTIONS';
+//--Tasks Actions
+export const ADD_TASK = 'ADD_TASK'
+export const UPDATE_TASK = 'UPDATE_TASK'
+export const REMOVE_TASK = 'REMOVE_TASK'
+export const COMPLETE_TASK = 'COMPLETE_TASK'
+export const TOOGLE_ALL = 'TOOGLE_ALL'
+export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER'
