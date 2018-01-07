@@ -12,6 +12,8 @@
     "react-tooltip": "^3.4.0",
     "react-redux": "^5.0.6",
     "react-scripts": "1.0.17",
+    "react-autosuggest": "^9.3.2",
+    "autosuggest-highlight": "^3.1.1",
     "redux": "^3.7.2",
     "typeface-roboto": "0.0.45"
   },

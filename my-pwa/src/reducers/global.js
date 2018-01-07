@@ -2,7 +2,8 @@ import * as types from '../constants/actionTypes'
 
 const initGlobalState = {
   page: 'home',
-  options: {}
+  options: {},
+  title: 'FindMyList',
 };
 
 export default function global(state = initGlobalState, action) {
