@@ -7,7 +7,7 @@ import {store} from './global'
 import DetailPage from './components/Pages/Detail'
 import TitleBar from './components/Header/TitleBar'
 import * as keys from './constants/storageKeys'
-
+import Drawer from './components/Drawers/LeftDrawer'
 class App extends Component {
 
   constructor(props) {
@@ -42,6 +42,7 @@ class App extends Component {
     return (
       <div>
         <Reboot />
+        <Drawer />
         <TitleBar />
         <DetailPage context={context()} />
       </div>

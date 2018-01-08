@@ -13,3 +13,10 @@ export function updateSelectedOptions(options) {
     payload: options,
   };
 }
+
+export function updateDrawer(value) {
+  return {
+    type: types.UPDATE_DRAWER,
+    payload: value,
+  };
+}

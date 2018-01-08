@@ -1,6 +1,7 @@
 //--Global Actions
 export const UPDATE_SELECTED_PAGE = 'UPDATE_SELECTED_PAGE';
 export const UPDATE_SELECTED_PAGE_OPTIONS = 'UPDATE_SELECTED_PAGE_OPTIONS';
+export const UPDATE_DRAWER = 'UPDATE_DRAWER';
 //--Tasks Actions
 export const ADD_TASK = 'ADD_TASK'
 export const UPDATE_TASK = 'UPDATE_TASK'

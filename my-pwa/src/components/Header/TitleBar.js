@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import Typography from 'material-ui/Typography';
-
+import * as globalActions from '../../actions/global';
 
 const styles = {
   root: {
@@ -26,15 +27,24 @@ class TitleBar extends Component {
     super(props);
   }
 
+  handleDrawerOpen = () => {
+    this.props.actions.updateDrawer(true);
+  };
+
   render() {
     const {title} = this.props;
     return (
       <div style={styles.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton style={styles.menuButton} color="contrast" aria-label="Menu">
+            <IconButton 
+                style={styles.menuButton} 
+                color="contrast" 
+                onClick={this.handleDrawerOpen}
+                aria-label="Menu">
               <MenuIcon />
             </IconButton>
+
             <Typography type="title" color="inherit" style={styles.flex} >
               {title}
             </Typography>
@@ -51,5 +61,7 @@ export default connect(
     page: state.global.page,
     options: state.global.options,
     title: state.global.title,
-  })
+  }),
+  (dispatch) => ({ 
+    actions: bindActionCreators(globalActions, dispatch) })
 )(TitleBar)

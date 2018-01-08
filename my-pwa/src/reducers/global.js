@@ -4,6 +4,7 @@ const initGlobalState = {
   page: 'home',
   options: {},
   title: 'FindMyList',
+  drawer: false,
 };
 
 export default function global(state = initGlobalState, action) {
@@ -19,6 +20,11 @@ export default function global(state = initGlobalState, action) {
     case types.UPDATE_SELECTED_PAGE_OPTIONS:
       retVal = {...state};
       retVal.options = payload;
+      break;
+
+    case types.UPDATE_DRAWER:
+      retVal = {...state};
+      retVal.drawer = payload;
       break;
 
     default:
