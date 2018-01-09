@@ -7,6 +7,7 @@
     "babel-polyfill": "^6.26.0",
     "material-ui": "^1.0.0-beta.26",
     "material-ui-icons": "^1.0.0-beta.17",
+    "material-design-icons": "^3.0.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-tooltip": "^3.4.0",

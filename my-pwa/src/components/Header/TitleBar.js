@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
+import SearchIcon from 'material-ui-icons/Search';
 import MenuIcon from 'material-ui-icons/Menu';
 import Typography from 'material-ui/Typography';
 import * as globalActions from '../../actions/global';
@@ -32,23 +33,28 @@ class TitleBar extends Component {
   };
 
   render() {
-    const {title} = this.props;
+    const { title } = this.props;
     return (
       <div style={styles.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton 
-                style={styles.menuButton} 
-                color="contrast" 
-                onClick={this.handleDrawerOpen}
-                aria-label="Menu">
+            <IconButton
+              style={styles.menuButton}
+              color="contrast"
+              onClick={this.handleDrawerOpen}
+              aria-label="Menu">
               <MenuIcon />
             </IconButton>
 
             <Typography type="title" color="inherit" style={styles.flex} >
               {title}
             </Typography>
-            <Button color="contrast">Login</Button>
+            <IconButton
+              // style={styles.searchButton}
+              color="contrast"
+            >
+              <SearchIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
       </div>
@@ -57,11 +63,12 @@ class TitleBar extends Component {
 }
 
 export default connect(
-  (state) => ({ 
+  (state) => ({
     page: state.global.page,
     options: state.global.options,
     title: state.global.title,
   }),
-  (dispatch) => ({ 
-    actions: bindActionCreators(globalActions, dispatch) })
+  (dispatch) => ({
+    actions: bindActionCreators(globalActions, dispatch)
+  })
 )(TitleBar)
