@@ -49,10 +49,7 @@ class TitleBar extends Component {
             <Typography type="title" color="inherit" style={styles.flex} >
               {title}
             </Typography>
-            <IconButton
-              // style={styles.searchButton}
-              color="contrast"
-            >
+            <IconButton color="contrast">
               <SearchIcon />
             </IconButton>
           </Toolbar>

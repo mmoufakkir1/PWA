@@ -9,6 +9,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
+import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import AddLocationIcon from 'material-ui-icons/AddLocation';
 import ImageIcon from 'material-ui-icons/Image';
@@ -21,6 +22,14 @@ import blue from 'material-ui/colors/blue';
 import grey from 'material-ui/colors/grey';
 import Card, { CardHeader } from 'material-ui/Card';
 import * as globalActions from '../../actions/global';
+import {
+  defaultDialog,
+  newLocationFormDialog,
+} from '../Dialogs/dialogTypes';
+
+import {
+  showSnackBarMsg,
+} from '../Snackbars/snackbarTypes';
 
 const styles = {
   list: {
@@ -37,10 +46,10 @@ const styles = {
   avatar: {
     backgroundColor: red[500],
   },
-  todo:{
+  todo: {
     backgroundColor: blue[600],
   },
-  folder:{
+  folder: {
     //backgroundColor: grey[600],
     marginLeft: -12,
     marginRight: 20,
@@ -56,15 +65,38 @@ class LeftDrawer extends Component {
     this.state = {
       isOpen: false,
     }
+
+    this.saveNewLocation = this.saveNewLocation.bind(this);
+    this.closeLocationForm = this.closeLocationForm.bind(this);
+    this.addNewLocation = this.addNewLocation.bind(this);
+
   }
 
   toggleDrawer = (val) => () => {
     this.props.actions.updateDrawer(val);
   };
 
+  addNewLocation() {
+    this.props.actions.updateDrawer(false);
+    const dialog = newLocationFormDialog(this.saveNewLocation, this.closeLocationForm);
+    this.props.actions.updateDialog(dialog);
+    
+  }
+
+  closeLocationForm() {
+    this.props.actions.updateSelectedPage('home');
+    this.props.actions.updateDialog(defaultDialog);
+  };
+
+  saveNewLocation() {
+    this.props.actions.updateDialog(defaultDialog);
+    this.props.actions.updateSelectedPage('home');
+    this.props.actions.updateSnackBar(showSnackBarMsg("New Location Added"));
+    
+  };
+
   render() {
     const { drawerState } = this.props;
-
     const header = (
       <div>
         <Card style={styles.card}>
@@ -94,35 +126,26 @@ class LeftDrawer extends Component {
             <Avatar aria-label="Recipe" style={styles.todo}>
               <TodoListIcon />
             </Avatar>
-
             <ListItemText primary="To-Do" secondary="" />
           </ListItem>
-
           <Divider />
-
           <ListItem button>
-              <FolderIcon color="primary"  />
+            <FolderIcon color="primary" />
             <ListItemText primary="Vacation" secondary="" />
           </ListItem>
-
           <Divider />
-
           <ListItem button>
-              <FolderIcon color="primary"  />
+            <FolderIcon color="primary" />
             <ListItemText primary="Church" secondary="" />
           </ListItem>
-
           <Divider />
-
           <ListItem button>
-              <FolderIcon color="primary"  />
+            <FolderIcon color="primary" />
             <ListItemText primary="Publix" secondary="" />
           </ListItem>
-
           <Divider />
-
           <ListItem button>
-              <FolderIcon color="primary"  />
+            <FolderIcon color="primary" />
             <ListItemText primary="Walt Mart" secondary="" />
           </ListItem>
 
@@ -145,12 +168,17 @@ class LeftDrawer extends Component {
           <div style={styles.footer}>
             <AppBar position="static" color="primary">
               <Toolbar>
-                <IconButton color="contrast" aria-label="Menu">
+                <IconButton color="contrast" onClick={this.addNewLocation}>
                   <AddLocationIcon />
                 </IconButton>
-                <Typography type="button" color="inherit">
-                  Add Task Location
+                <Button
+                  color="inherit"
+                  onClick={this.addNewLocation}
+                >
+                  <Typography type="button" color="inherit">
+                    Add Task Location
                 </Typography>
+                </Button>
               </Toolbar>
             </AppBar>
           </div>

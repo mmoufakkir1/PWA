@@ -5,6 +5,23 @@ const initGlobalState = {
   options: {},
   title: 'FindMyList',
   drawer: false,
+  dialog: {
+    actions: null,
+    content: null,
+    contentText: '',
+    title: '',
+    open: false,
+    onClose: null,
+    fullScreen: false,
+  },
+  snackbar: {
+    action: null,
+    classes: {},
+    message: null,
+    open: false,
+    duration: 0,
+
+  }
 };
 
 export default function global(state = initGlobalState, action) {
@@ -25,6 +42,16 @@ export default function global(state = initGlobalState, action) {
     case types.UPDATE_DRAWER:
       retVal = {...state};
       retVal.drawer = payload;
+      break;
+
+    case types.UPDATE_DIALOG:
+      retVal = {...state};
+      retVal.dialog = payload;
+      break;
+
+    case types.UPDATE_SNACKBAR:
+      retVal = {...state};
+      retVal.snackbar = payload;
       break;
 
     default:

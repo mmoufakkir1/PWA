@@ -28,6 +28,7 @@ export function store(key, val=null){
     }
     return retVal;
 }
+
 export function getQueryStringParam(name) {
   name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
   var regexS = "[\\?&]" + name + "=([^&#]*)";

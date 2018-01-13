@@ -2,6 +2,7 @@ import React from 'react';
 //-------------Pages--------------------------------
 import Home from './components/Pages/Home';
 import AboutUs from './components/Pages/AboutUs';
+
 export function getPage(selectedPage, options) {
   let page = null;
   try {
@@ -13,7 +14,6 @@ export function getPage(selectedPage, options) {
       case 'about':
         page = (<AboutUs />);
         break;
-
     }
 
   } catch (err) {

@@ -20,3 +20,17 @@ export function updateDrawer(value) {
     payload: value,
   };
 }
+
+export function updateDialog(objDialog) {
+  return {
+    type: types.UPDATE_DIALOG,
+    payload: objDialog,
+  };
+}
+
+export function updateSnackBar(objSnackBar) {
+  return {
+    type: types.UPDATE_SNACKBAR,
+    payload: objSnackBar,
+  };
+}

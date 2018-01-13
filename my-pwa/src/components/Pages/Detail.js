@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default function DetailPage({ context=null}) {
-  if (context === null) {
-    return (<div><p>No Content Found</p></div>);
+class DetailPage extends Component {
+  constructor(props) {
+    super(props)
   }
-  
-  return (
+
+  render() {
+    const { context } = this.props;
+    if (context === null) return (<div><p>No Content Found</p></div>);
+
+    return (
       <div>
         {context}
       </div>
-  );
+    )
+  }
 }
+
+export default DetailPage;

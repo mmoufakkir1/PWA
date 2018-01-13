@@ -42,13 +42,24 @@ class IntegrationAutosuggest extends Component {
         suggestions: [],
       };
     
+    this.renderInput = this.renderInput.bind(this);
+    this.renderSuggestion = this.renderSuggestion.bind(this);
+    this.renderSuggestionsContainer = this.renderSuggestionsContainer.bind(this);
+    this.getSuggestionValue = this.getSuggestionValue.bind(this);
+    this.handleSuggestionsFetchRequested = this.handleSuggestionsFetchRequested.bind(this);
+    this.handleSuggestionsClearRequested = this.handleSuggestionsClearRequested.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  renderInput = (inputProps) => {
+  renderInput(inputProps) {
     const { classes, autoFocus, value, ref, ...other } = inputProps;
     return (
       <TextField
-        autoFocus={autoFocus}
+        autoFocus
+        //onChange={handleChange('age')}
+        label=""
+        helperText=""
+        margin="dense"
         className={classes.textField}
         value={value}
         inputRef={ref}
@@ -62,7 +73,7 @@ class IntegrationAutosuggest extends Component {
     );
   }
 
-  renderSuggestion = (suggestion, { query, isHighlighted }) => {
+  renderSuggestion(suggestion, { query, isHighlighted }) {
     const matches = match(suggestion.label, query);
     const parts = parse(suggestion.label, matches);
   
@@ -85,7 +96,7 @@ class IntegrationAutosuggest extends Component {
     );
   }
 
-  renderSuggestionsContainer = (options) => {
+  renderSuggestionsContainer(options) {
     const { containerProps, children } = options;
   
     return (
@@ -95,11 +106,11 @@ class IntegrationAutosuggest extends Component {
     );
   }
 
-  getSuggestionValue = (suggestion) => {
+  getSuggestionValue(suggestion) {
     return suggestion.label;
   }
 
-  getSuggestions = (value) => {
+  getSuggestions(value) {
     const { suggestions } = this.props;
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
@@ -118,19 +129,19 @@ class IntegrationAutosuggest extends Component {
       });
   }
 
-  handleSuggestionsFetchRequested = ({ value }) => {
+  handleSuggestionsFetchRequested({ value }) {
     this.setState({
       suggestions: this.getSuggestions(value),
     });
   };
 
-  handleSuggestionsClearRequested = () => {
+  handleSuggestionsClearRequested() {
     this.setState({
       suggestions: [],
     });
   };
 
-  handleChange = (event, { newValue }) => {
+  handleChange(event, { newValue }) {
     this.setState({
       value: newValue,
     });
