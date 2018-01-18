@@ -50,7 +50,7 @@ class App extends Component {
 
   render() {
     const { onboarded, loading } = this.state
-    const { page, options, dialog, snackbar } = this.props;
+    const { page, options, dialog, snackbar, showTitleBar } = this.props;
     const context = () => { return getPage(page, options); };
 
     if (loading) return null
@@ -59,8 +59,14 @@ class App extends Component {
     return (
       <div>
         <Reboot />
-        <Drawer />
-        <TitleBar />
+        {
+          (showTitleBar) ? (
+            <div>
+              <Drawer />
+              <TitleBar />
+            </div>) : null
+        }
+
         <DetailPage context={context()} />
         <Dialog
           open={dialog.open}
@@ -110,6 +116,7 @@ export default connect(
     options: state.global.options,
     dialog: state.global.dialog,
     snackbar: state.global.snackbar,
+    showTitleBar: state.global.showTitleBar,
   }),
   (dispatch) => ({
     actions: bindActionCreators(globalActions, dispatch)

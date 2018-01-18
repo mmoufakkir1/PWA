@@ -66,16 +66,16 @@ export function newLocationFormDialog(actionOnSave, actionOnClose) {
   return dialog;
 }
 
-export function searchDialog() {
+export function searchDialog(actionOnSave, actionOnClose) {
   const dialog = {
     title: '',
     actions: (
       <div>
-        <Button color="primary">
+        <Button onClick={actionOnClose} color="primary">
           Cancel
         </Button>
 
-        <Button color="primary">
+        <Button onClick={actionOnSave} color="primary">
           Save
         </Button>
 

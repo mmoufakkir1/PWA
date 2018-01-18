@@ -34,3 +34,24 @@ export function updateSnackBar(objSnackBar) {
     payload: objSnackBar,
   };
 }
+
+export function updateSearchText(value) {
+  return {
+    type: types.UPDATE_SEARCH_TEXT,
+    payload: value,
+  };
+}
+
+export function updateSearchSuggestions(suggestions) {
+  return {
+    type: types.UPDATE_SEARCH_SUGGESTIONS,
+    payload: suggestions,
+  };
+}
+
+export function updateTitleBarVisibility(value) {
+  return {
+    type: types.SET_VISIBILITY_TITLEBAR,
+    payload: value,
+  };
+}

@@ -30,7 +30,6 @@ const styles = {
   }
 }
 
-
 class Home extends Component {
 
   constructor(props){
@@ -41,9 +40,8 @@ class Home extends Component {
   }
 
   addNewLocation() {
-    //const dialog = newLocationFormDialog(this.saveNewLocation, this.closeLocationForm);
-    const dialog = searchDialog();
-    this.props.actions.updateDialog(dialog);
+    this.props.actions.updateTitleBarVisibility(false);
+    this.props.actions.updateSelectedPage('searchlocations');
     
   }
 
@@ -60,9 +58,6 @@ class Home extends Component {
 
     return (
       <div>
-
-
-
 
       <Button 
         fab color="primary" 

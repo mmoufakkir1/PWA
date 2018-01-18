@@ -4,7 +4,10 @@ const initGlobalState = {
   page: 'home',
   options: {},
   title: 'FindMyList',
+  showTitleBar: true,
   drawer: false,
+  searchText: '',
+  searchSuggestions: [],
   dialog: {
     actions: null,
     content: null,
@@ -52,6 +55,21 @@ export default function global(state = initGlobalState, action) {
     case types.UPDATE_SNACKBAR:
       retVal = {...state};
       retVal.snackbar = payload;
+      break;
+
+    case types.UPDATE_SEARCH_TEXT:
+      retVal = {...state};
+      retVal.searchText = payload;
+      break;
+
+    case types.UPDATE_SEARCH_SUGGESTIONS:
+      retVal = {...state};
+      retVal.searchSuggestions = payload;
+      break;
+
+    case types.SET_VISIBILITY_TITLEBAR:
+      retVal = {...state};
+      retVal.showTitleBar = payload;
       break;
 
     default:

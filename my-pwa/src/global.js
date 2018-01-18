@@ -1,3 +1,7 @@
+//**VARIABLES**/
+export const apiUrl = 'http://www.spartanappsolutions.com:9000';
+
+
 /***Global Functions */
 export function newGuid() {
   var i, random;
