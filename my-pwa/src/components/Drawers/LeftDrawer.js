@@ -22,6 +22,8 @@ import blue from 'material-ui/colors/blue';
 import grey from 'material-ui/colors/grey';
 import Card, { CardHeader } from 'material-ui/Card';
 import * as globalActions from '../../actions/global';
+import * as projectActions from '../../actions/projects';
+
 import {
   defaultDialog,
   newLocationFormDialog,
@@ -80,7 +82,7 @@ class LeftDrawer extends Component {
     this.props.actions.updateDrawer(false);
     const dialog = newLocationFormDialog(this.saveNewLocation, this.closeLocationForm);
     this.props.actions.updateDialog(dialog);
-    
+
   }
 
   closeLocationForm() {
@@ -92,11 +94,16 @@ class LeftDrawer extends Component {
     this.props.actions.updateDialog(defaultDialog);
     this.props.actions.updateSelectedPage('home');
     this.props.actions.updateSnackBar(showSnackBarMsg("New Location Added"));
-    
+
   };
 
   render() {
-    const { drawerState } = this.props;
+
+    const {
+      drawerState,
+      projectItems,
+     } = this.props;
+
     const header = (
       <div>
         <Card style={styles.card}>
@@ -129,25 +136,14 @@ class LeftDrawer extends Component {
             <ListItemText primary="To-Do" secondary="" />
           </ListItem>
           <Divider />
-          <ListItem button>
-            <FolderIcon color="primary" />
-            <ListItemText primary="Vacation" secondary="" />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <FolderIcon color="primary" />
-            <ListItemText primary="Church" secondary="" />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <FolderIcon color="primary" />
-            <ListItemText primary="Publix" secondary="" />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <FolderIcon color="primary" />
-            <ListItemText primary="Walt Mart" secondary="" />
-          </ListItem>
+
+          {projectItems.map((item, index) => {
+            return (<ListItem button key={item.id} >
+              <FolderIcon color="primary" />
+              <ListItemText primary={item.name} secondary="" />
+            </ListItem>)
+
+          })}
 
           <Divider />
 
@@ -193,9 +189,11 @@ export default connect(
     page: state.global.page,
     options: state.global.options,
     drawerState: state.global.drawer,
+    projectItems: state.projects,
   }),
   (dispatch) => ({
-    actions: bindActionCreators(globalActions, dispatch)
+    actions: bindActionCreators(globalActions, dispatch),
+    projects: bindActionCreators(projectActions, dispatch),
   })
 )(LeftDrawer)
 

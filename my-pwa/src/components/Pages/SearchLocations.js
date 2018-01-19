@@ -10,7 +10,10 @@ import CancelIcon from 'material-ui-icons/Cancel';
 import IconButton from 'material-ui/IconButton';
 import Button from 'material-ui/Button';
 
+
 import * as globalActions from '../../actions/global'
+import * as projectActions from '../../actions/projects'
+
 import {
   isEmpty,
   apiUrl,
@@ -48,6 +51,7 @@ class SearchLocations extends Component {
     this.clearSearchText = this.clearSearchText.bind(this);
     this.onSeachTextChange = this.onSeachTextChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   clearSearchText() {
@@ -59,8 +63,15 @@ class SearchLocations extends Component {
     this.props.actions.updateSearchText('');
     this.props.actions.updateTitleBarVisibility(true);
     this.props.actions.updateSelectedPage('home');
-
   }
+
+  handleSave() {
+    const { searchText } = this.props;
+    if(!isEmpty(searchText)){
+      this.props.projects.addProject(searchText);
+    }
+  }
+
   onSeachTextChange(event, { newValue }) {
     let suggestionList = [];
     if (!isEmpty(newValue)) {
@@ -104,7 +115,8 @@ class SearchLocations extends Component {
         }
 
         <div>
-          <Button style={styles.saveButton} raised dense>
+
+          <Button onClick={this.handleSave} style={styles.saveButton} raised dense>
             <SaveIcon style={styles.leftIcon} />
             &nbsp;Save&nbsp;  
           </Button>
@@ -130,6 +142,7 @@ export default connect(
     suggestions: state.global.searchSuggestions,
   }),
   (dispatch) => ({
-    actions: bindActionCreators(globalActions, dispatch)
+    actions: bindActionCreators(globalActions, dispatch),
+    projects: bindActionCreators(projectActions, dispatch),
   })
 )(SearchLocations)

@@ -73,6 +73,7 @@ class IntegrationAutosuggest extends Component {
     return (
       <MenuItem selected={isHighlighted} component="div">
         <div>
+
           {parts.map((part, index) => {
             return part.highlight ? (
               <span key={String(index)} style={{ fontWeight: 300 }}>
@@ -84,6 +85,8 @@ class IntegrationAutosuggest extends Component {
                 </strong>
               );
           })}
+          
+
         </div>
       </MenuItem>
     );
@@ -125,17 +128,10 @@ class IntegrationAutosuggest extends Component {
   handleSuggestionsFetchRequested({ value }) {
     const suggestions = this.getSuggestions(value);
     this.props.actions.updateSearchSuggestions(suggestions);
-
-    //this.setState({
-    //  suggestions: this.getSuggestions(value),
-    //});
   };
 
   handleSuggestionsClearRequested() {
     this.props.actions.updateSearchSuggestions([]);
-    // this.setState({
-    //   suggestions: [],
-    // });
   };
 
   render() {
