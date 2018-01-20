@@ -71,6 +71,7 @@ class LeftDrawer extends Component {
     this.saveNewLocation = this.saveNewLocation.bind(this);
     this.closeLocationForm = this.closeLocationForm.bind(this);
     this.addNewLocation = this.addNewLocation.bind(this);
+    this.handleListItemClick = this.handleListItemClick.bind(this);
 
   }
 
@@ -79,10 +80,8 @@ class LeftDrawer extends Component {
   };
 
   addNewLocation() {
-    this.props.actions.updateDrawer(false);
-    const dialog = newLocationFormDialog(this.saveNewLocation, this.closeLocationForm);
-    this.props.actions.updateDialog(dialog);
-
+    this.props.actions.updateTitleBarVisibility(false);
+    this.props.actions.updateSelectedPage('searchlocations');
   }
 
   closeLocationForm() {
@@ -96,6 +95,12 @@ class LeftDrawer extends Component {
     this.props.actions.updateSnackBar(showSnackBarMsg("New Location Added"));
 
   };
+
+  handleListItemClick(e, val) {
+    const id = e.currentTarget.id;
+    this.props.actions.updateSelectedProjectId(id);
+    this.props.actions.updateSelectedPage('project');
+  }
 
   render() {
 
@@ -138,10 +143,14 @@ class LeftDrawer extends Component {
           <Divider />
 
           {projectItems.map((item, index) => {
-            return (<ListItem button key={item.id} >
-              <FolderIcon color="primary" />
-              <ListItemText primary={item.name} secondary="" />
-            </ListItem>)
+            return (
+              <ListItem
+                id={item.id}
+                button key={item.id}
+                onClick={this.handleListItemClick}  >
+                <FolderIcon color="primary" />
+                <ListItemText primary={item.name} secondary="" />
+              </ListItem>)
 
           })}
 

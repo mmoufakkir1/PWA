@@ -4,7 +4,7 @@ const initState = [];
 
 const reducer = (state = initState, action) => {
   let retVal;
-  
+
   const { type, payload } = action;
 
   switch (type) {
@@ -25,6 +25,10 @@ const reducer = (state = initState, action) => {
 
     case types.REMOVE_PROJECT:
       retVal = state.filter(project => project.id !== payload.id);
+      break;
+
+    case types.SELECT_PROJECT:
+      retVal = state.filter(project => project.id === payload.id);
       break;
 
     case types.COMPLETE_PROJECT:

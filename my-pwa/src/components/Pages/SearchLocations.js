@@ -54,14 +54,15 @@ class SearchLocations extends Component {
     this.handleSave = this.handleSave.bind(this);
   }
 
+  componentWillUnmount() {
+    this.clearSearchText();
+  }
   clearSearchText() {
     this.props.actions.updateSearchText('');
+    this.props.actions.updateSearchSuggestions([]);
   }
 
   handleCancel() {
-    this.props.actions.updateSearchSuggestions([]);
-    this.props.actions.updateSearchText('');
-    this.props.actions.updateTitleBarVisibility(true);
     this.props.actions.updateSelectedPage('home');
   }
 
@@ -69,6 +70,8 @@ class SearchLocations extends Component {
     const { searchText } = this.props;
     if(!isEmpty(searchText)){
       this.props.projects.addProject(searchText);
+      this.props.actions.updateTitle(searchText);
+      this.props.actions.updateSelectedPage('home');
     }
   }
 

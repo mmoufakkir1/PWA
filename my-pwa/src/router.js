@@ -3,13 +3,20 @@ import React from 'react';
 import Home from './components/Pages/Home';
 import AboutUs from './components/Pages/AboutUs';
 import SearchLocations from './components/Pages/SearchLocations';
+import Project from './components/Pages/Project';
+
 
 export function getPage(selectedPage, options) {
   let page = null;
   try {
     switch (selectedPage) {
+
       case 'home':
         page = (<Home />);
+        break;
+
+      case 'project':
+        page = (<Project />);
         break;
 
       case 'about':
@@ -25,7 +32,7 @@ export function getPage(selectedPage, options) {
 
     console.log(err);
     page = null;
-    
+
   }
   return page;
 }

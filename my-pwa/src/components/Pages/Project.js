@@ -11,6 +11,8 @@ import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 
 import * as globalActions from '../../actions/global';
+import * as projectActions from '../../actions/projects'
+
 import {
   defaultDialog,
   newLocationFormDialog,
@@ -30,7 +32,7 @@ const styles = {
   }
 }
 
-class Home extends Component {
+class Project extends Component {
 
   constructor(props){
     super(props)
@@ -40,8 +42,12 @@ class Home extends Component {
   }
 
   componentDidMount() {
+      const { projectid } = this.props;
       this.props.actions.updateTitleBarVisibility(true);
       this.props.actions.updateDrawer(false);
+      const project = this.props.projects.selectProject(projectid);
+      
+      
   }
   addNewLocation() {
     this.props.actions.updateTitleBarVisibility(false);
@@ -79,11 +85,14 @@ class Home extends Component {
 
 export default connect(
   (state) => ({
+    projectid: state.global.selectedProjectId,
     page: state.global.page,
     options: state.global.options,
     drawerState: state.global.drawer,
+
   }),
   (dispatch) => ({
-    actions: bindActionCreators(globalActions, dispatch)
+    actions: bindActionCreators(globalActions, dispatch),
+    projects: bindActionCreators(projectActions, dispatch),
   })
-)(Home)
+)(Project)

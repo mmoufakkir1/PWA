@@ -1,5 +1,19 @@
 import * as types from '../constants/actionTypes'
 
+export function updateTitle(name) {
+  return {
+    type: types.UPDATE_TITLE,
+    payload: name,
+  };
+}
+
+export function updateSubTitle(name) {
+  return {
+    type: types.UPDATE_SUBTITLE,
+    payload: name,
+  };
+}
+
 export function updateSelectedPage(page) {
   return {
     type: types.UPDATE_SELECTED_PAGE,
@@ -52,6 +66,13 @@ export function updateSearchSuggestions(suggestions) {
 export function updateTitleBarVisibility(value) {
   return {
     type: types.SET_VISIBILITY_TITLEBAR,
+    payload: value,
+  };
+}
+
+export function updateSelectedProjectId(value) {
+  return {
+    type: types.UPDATE_SELECTED_PROJECT_ID,
     payload: value,
   };
 }
