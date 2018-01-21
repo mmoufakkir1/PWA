@@ -98,7 +98,9 @@ class LeftDrawer extends Component {
 
   handleListItemClick(e, val) {
     const id = e.currentTarget.id;
-    this.props.actions.updateSelectedProjectId(id);
+    this.props.actions.updateSelectedOptions({id});
+    //this.props.actions.updateSelectedPage('');
+    //this.props.actions.updateSelectedProjectId(id);
     this.props.actions.updateSelectedPage('project');
   }
 

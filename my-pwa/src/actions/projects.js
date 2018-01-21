@@ -20,10 +20,3 @@ export const completeProject = (id) => {
     payload: { id }
   }
 }
-
-export const selectProject = (id) => {
-  return {
-    type: types.SELECT_PROJECT,
-    payload: { id }
-  }
-}

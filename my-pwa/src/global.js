@@ -17,6 +17,30 @@ export function newGuid() {
   return uuid;
 }
 
+/******************************************* 
+findByIdFirst:
+input: 
+    - array<obj> containing an id parameter
+    - id<string> id to compare
+output: 
+    - if found First obj item
+    - if not found null
+*********************************************/
+export function findByIdFirst(objArray, id) {
+  let retVal;
+  if(!isEmpty(objArray)) {
+    const items = objArray.filter(item => item.id === id);
+    if(!isEmpty(items)) {
+      retVal = items[0];
+    } else {
+      retVal = null;
+    }
+  } else {
+    retVal = null;
+  }
+  return retVal;
+}
+
 export function store(key, val=null){
     let retVal = null;
     if(val && !isEmpty(key)) {

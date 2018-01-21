@@ -27,9 +27,7 @@ const reducer = (state = initState, action) => {
       retVal = state.filter(project => project.id !== payload.id);
       break;
 
-    case types.SELECT_PROJECT:
-      retVal = state.filter(project => project.id === payload.id);
-      break;
+
 
     case types.COMPLETE_PROJECT:
       retVal = state.map(project => {

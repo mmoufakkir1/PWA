@@ -23,6 +23,10 @@ import {
   showSnackBarMsg,
 } from '../Snackbars/snackbarTypes';
 
+import {
+  findByIdFirst,
+  isEmpty,
+} from '../../global';
 
 const styles = {
   floatinButton: {
@@ -34,25 +38,48 @@ const styles = {
 
 class Project extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
+    this.state = {
+      id: '',
+    }
+
     this.addNewLocation = this.addNewLocation.bind(this);
     this.closeLocationForm = this.closeLocationForm.bind(this);
     this.saveNewLocation = this.saveNewLocation.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({id: nextProps.id});
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    let retVal = true;
+    if (!isEmpty(nextState)) {
+      if (nextProps.projectid !== nextState.id) {
+        retVal = true;
+      } else {
+        retVal = false;
+      }
+    }
+    return retVal;
+  }
+
   componentDidMount() {
-      const { projectid } = this.props;
+    const { id, projectList } = this.props;
+    const project = findByIdFirst(projectList, id);
+    if (project) {
+      this.props.actions.updateTitle(project.name);
       this.props.actions.updateTitleBarVisibility(true);
       this.props.actions.updateDrawer(false);
-      const project = this.props.projects.selectProject(projectid);
-      
-      
+      this.setState({id: id});
+    }
   }
+
   addNewLocation() {
     this.props.actions.updateTitleBarVisibility(false);
     this.props.actions.updateSelectedPage('searchlocations');
-    
+
   }
 
   saveNewLocation() {
@@ -69,14 +96,14 @@ class Project extends Component {
     return (
       <div>
 
-      <Button 
-        fab color="primary" 
-        aria-label="add" 
-        style={styles.floatinButton}
-        onClick={this.addNewLocation}
+        <Button
+          fab color="primary"
+          aria-label="add"
+          style={styles.floatinButton}
+          onClick={this.addNewLocation}
         >
-        <AddIcon />
-      </Button>
+          <AddIcon />
+        </Button>
 
       </div>
     );
@@ -86,6 +113,7 @@ class Project extends Component {
 export default connect(
   (state) => ({
     projectid: state.global.selectedProjectId,
+    projectList: state.projects,
     page: state.global.page,
     options: state.global.options,
     drawerState: state.global.drawer,
