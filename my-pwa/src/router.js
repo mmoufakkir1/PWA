@@ -16,7 +16,7 @@ export function getPage(selectedPage, options) {
         break;
 
       case 'project':
-        page = (<Project id={options.id} />);
+        page = (<Project />);
         break;
 
       case 'about':

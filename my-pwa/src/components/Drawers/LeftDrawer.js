@@ -33,6 +33,11 @@ import {
   showSnackBarMsg,
 } from '../Snackbars/snackbarTypes';
 
+import {
+  findByIdFirst,
+  isEmpty,
+} from '../../global';
+
 const styles = {
   list: {
     width: 250,
@@ -98,10 +103,20 @@ class LeftDrawer extends Component {
 
   handleListItemClick(e, val) {
     const id = e.currentTarget.id;
-    this.props.actions.updateSelectedOptions({id});
+    const { projectItems } = this.props;
+    const project = findByIdFirst(projectItems, id);
+    if (project) {
+      this.props.actions.updateSelectedOptions(project);
+      this.props.actions.updateTitle(project.name);
+      this.props.actions.updateTitleBarVisibility(true);
+      this.props.actions.updateDrawer(false);
+      this.props.actions.updateSelectedPage('project');
+    }
+
+    
     //this.props.actions.updateSelectedPage('');
     //this.props.actions.updateSelectedProjectId(id);
-    this.props.actions.updateSelectedPage('project');
+    
   }
 
   render() {
