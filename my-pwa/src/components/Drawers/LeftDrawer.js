@@ -112,11 +112,6 @@ class LeftDrawer extends Component {
       this.props.actions.updateDrawer(false);
       this.props.actions.updateSelectedPage('project');
     }
-
-    
-    //this.props.actions.updateSelectedPage('');
-    //this.props.actions.updateSelectedProjectId(id);
-    
   }
 
   render() {
@@ -161,13 +156,17 @@ class LeftDrawer extends Component {
 
           {projectItems.map((item, index) => {
             return (
+             <div key={item.id}>
               <ListItem
                 id={item.id}
-                button key={item.id}
+                button 
                 onClick={this.handleListItemClick}  >
                 <FolderIcon color="primary" />
                 <ListItemText primary={item.name} secondary="" />
-              </ListItem>)
+              </ListItem>
+              <Divider />
+            </div>
+            )
 
           })}
 
