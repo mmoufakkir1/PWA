@@ -23,11 +23,6 @@ import {
   showSnackBarMsg,
 } from '../Snackbars/snackbarTypes';
 
-import {
-  findByIdFirst,
-  isEmpty,
-} from '../../global';
-
 const styles = {
   floatinButton: {
     position: 'absolute',
@@ -40,40 +35,9 @@ class Project extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      id: '',
-    }
-
     this.addNewLocation = this.addNewLocation.bind(this);
     this.closeLocationForm = this.closeLocationForm.bind(this);
     this.saveNewLocation = this.saveNewLocation.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({id: nextProps.id});
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    let retVal = true;
-    if (!isEmpty(nextState)) {
-      if (nextProps.projectid !== nextState.id) {
-        retVal = true;
-      } else {
-        retVal = false;
-      }
-    }
-    return retVal;
-  }
-
-  componentDidMount() {
-    const { id, projectList } = this.props;
-    const project = findByIdFirst(projectList, id);
-    if (project) {
-      this.props.actions.updateTitle(project.name);
-      this.props.actions.updateTitleBarVisibility(true);
-      this.props.actions.updateDrawer(false);
-      this.setState({id: id});
-    }
   }
 
   addNewLocation() {
@@ -113,7 +77,6 @@ class Project extends Component {
 export default connect(
   (state) => ({
     projectid: state.global.selectedProjectId,
-    projectList: state.projects,
     page: state.global.page,
     options: state.global.options,
     drawerState: state.global.drawer,
