@@ -1,5 +1,11 @@
 import * as types from '../constants/actionTypes'
-import { newGuid } from '../global'
+import * as keys from '../constants/storageKeys';
+
+import { 
+  newGuid,
+  store,
+  isEmpty, 
+} from '../global'
 const initState = [];
 
 const reducer = (state = initState, action) => {
@@ -21,12 +27,17 @@ const reducer = (state = initState, action) => {
           tasks: []
         }
       ];
+      
       break;
+
+    case types.UPDATE_PROJECTS:
+      retVal = payload;
+      break;
+
 
     case types.REMOVE_PROJECT:
       retVal = state.filter(project => project.id !== payload.id);
       break;
-
 
 
     case types.COMPLETE_PROJECT:
@@ -46,6 +57,11 @@ const reducer = (state = initState, action) => {
     default:
       retVal = state;
   }
+
+  if(!isEmpty(retVal)) {
+    store(keys.PROJECTS, retVal);
+  }
+  
   return retVal;
 }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Reboot from 'material-ui/Reboot';
+import Dialog, {DialogActions, DialogContent, DialogContentText, DialogTitle,} from 'material-ui/Dialog';
 import { getPage } from './router';
 import { store } from './global'
 import DetailPage from './components/Pages/Detail'
@@ -10,13 +11,12 @@ import Drawer from './components/Drawers/LeftDrawer'
 import Snackbar from 'material-ui/Snackbar';
 import Fade from 'material-ui/transitions/Fade';
 import * as globalActions from './actions/global';
+import * as projectActions from './actions/projects';
 import * as keys from './constants/storageKeys';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog';
+import {
+  isEmpty
+} from './global';
+
 
 import {
   defaultSnackBar,
@@ -44,8 +44,14 @@ class App extends Component {
   }
 
   goToApp() {
+    const { projectItems } = this.props;
+    if(isEmpty(projectItems)){
+      const items = store(keys.PROJECTS) || [];
+      this.props.projects.updateProjects(items);
+    }
     store(keys.ONBOARDED, true)
     this.setState({ onboarded: true })
+
   }
 
   render() {
@@ -117,8 +123,10 @@ export default connect(
     dialog: state.global.dialog,
     snackbar: state.global.snackbar,
     showTitleBar: state.global.showTitleBar,
+    projectItems: state.projects,
   }),
   (dispatch) => ({
-    actions: bindActionCreators(globalActions, dispatch)
+    actions: bindActionCreators(globalActions, dispatch),
+    projects: bindActionCreators(projectActions, dispatch),
   })
 )(App)

@@ -20,3 +20,10 @@ export const completeProject = (id) => {
     payload: { id }
   }
 }
+
+export const updateProjects = (projects) => {
+  return {
+    type: types.UPDATE_PROJECTS,
+    payload: projects
+  }
+}

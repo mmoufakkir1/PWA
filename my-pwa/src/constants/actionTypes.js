@@ -14,9 +14,10 @@ export const UPDATE_SELECTED_PROJECT_ID = 'UPDATE_SELECTED_PROJECT_ID';
 
 //--Projects Actions
 export const ADD_PROJECT = 'ADD_PROJECT';
-export const UPDATE_PROJECT = 'UPDATE_PROJECT';
+export const UPDATE_PROJECTS = 'UPDATE_PROJECTS';
 export const REMOVE_PROJECT = 'REMOVE_PROJECT';
 export const COMPLETE_PROJECT = 'COMPLETE_PROJECT';
+
 
 
 //--Tasks Actions
