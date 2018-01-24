@@ -40,7 +40,9 @@ import {
 
 const styles = {
   list: {
-    width: 250,
+    width: '100%',
+    maxHeight: '500px',
+    overflowY: 'auto',
   },
   listFull: {
     width: 'auto',
