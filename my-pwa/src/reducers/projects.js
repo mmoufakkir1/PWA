@@ -28,6 +28,7 @@ const reducer = (state = initState, action) => {
         }
       ];
       
+      
       break;
 
     case types.UPDATE_PROJECTS:
