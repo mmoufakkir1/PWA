@@ -12,15 +12,21 @@ import AddIcon from 'material-ui-icons/Add';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
 
 import * as globalActions from '../../actions/global';
 import * as projectActions from '../../actions/projects'
 
-import {
-  defaultDialog,
-  newLocationFormDialog,
-  searchDialog,
-} from '../Dialogs/dialogTypes';
+// import {
+//   defaultDialog,
+//   newLocationFormDialog,
+//   searchDialog,
+// } from '../Dialogs/dialogTypes';
 
 import {
   showSnackBarMsg,
@@ -48,26 +54,20 @@ class Project extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      open: false,
       checked: [1],
     }
-    this.addNewLocation = this.addNewLocation.bind(this);
-    this.closeLocationForm = this.closeLocationForm.bind(this);
-    this.saveNewLocation = this.saveNewLocation.bind(this);
-  }
-
-  addNewLocation() {
-    this.props.actions.updateTitleBarVisibility(false);
-    this.props.actions.updateSelectedPage('searchlocations');
+    //this.addNewTask = this.addNewTask.bind(this);
 
   }
 
-  saveNewLocation() {
-    this.props.actions.updateDialog(defaultDialog);
-    this.props.actions.updateSnackBar(showSnackBarMsg("Added New Task"));
+  addNewTask = () => {
+    this.setState({open: true});
+
   }
 
-  closeLocationForm() {
-    this.props.actions.updateDialog(defaultDialog);
+  closeForm = () => {
+    this.setState({open: false});
   }
 
   handleToggle(value) {
@@ -90,20 +90,20 @@ class Project extends Component {
         <List>
           {[0, 1, 2, 3].map(value => (
             <div key={value}>
-            <Paper elevation={4} square={true} >
-              <ListItem dense button style={styles.listViewItem}>
-                <ListItemText 
-                disableTypography
-                primary={<Typography type="headline">{`Line item ${value + 1}`}</Typography>}
-                />
-
-                <ListItemSecondaryAction>
-                  <Checkbox
-                    onChange={this.handleToggle(value)}
-                    checked={this.state.checked.indexOf(value) !== -1}
+              <Paper elevation={4} square={true} >
+                <ListItem dense button style={styles.listViewItem}>
+                  <ListItemText
+                    disableTypography
+                    primary={<Typography type="headline">{`Line item ${value + 1}`}</Typography>}
                   />
-                </ListItemSecondaryAction>
-              </ListItem>
+
+                  <ListItemSecondaryAction>
+                    <Checkbox
+                      onChange={this.handleToggle(value)}
+                      checked={this.state.checked.indexOf(value) !== -1}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
               </Paper>
 
             </div>
@@ -111,15 +111,46 @@ class Project extends Component {
           ))}
         </List>
 
+        <Dialog
+          open={this.state.open}
+          onClose={this.closeForm}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Add New Task</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              To add a new task to this location, please enter the task name. We will send
+              near by updates occationally.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="taskname"
+              label="Task Name"
+              fullWidth
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.closeForm} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.closeForm} color="primary">
+              New Task
+            </Button>
+          </DialogActions>
+        </Dialog>
+
 
         <Button
           fab color="primary"
           aria-label="add"
           style={styles.floatinButton}
-          onClick={this.addNewLocation}
+          onClick={this.addNewTask}
         >
           <AddIcon />
         </Button>
+
 
       </div>
     );

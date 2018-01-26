@@ -3,6 +3,7 @@ import {newGuid} from '../global'
 const initState = [];
 
 const reducer = (state = initState, action) => {
+  let retVal;  
   const {type, payload} = action;
   switch(type){
     case types.ADD_TASK: {
@@ -13,10 +14,15 @@ const reducer = (state = initState, action) => {
           createdAt: new Date(),
           completedAt: null,
           completed: false,
-          text: payload.trim()
+          text: payload.name.trim(),
+          projectId: payload.projectId.trim()
         }
       ]
     }
+
+    case types.UPDATE_TASKS:
+      retVal = payload;
+      break;
 
     case types.REMOVE_TASK: {
       return state.filter(task => task.id !== payload.id)

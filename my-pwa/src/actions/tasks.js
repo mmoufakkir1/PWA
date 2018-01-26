@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes'
 export const addTask = (todo) => {
   return {
     type: types.ADD_TASK,
-    payload: todo
+    payload: { todo }
   }
 }
 

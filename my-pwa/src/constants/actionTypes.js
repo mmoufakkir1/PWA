@@ -22,9 +22,8 @@ export const COMPLETE_PROJECT = 'COMPLETE_PROJECT';
 
 //--Tasks Actions
 export const ADD_TASK = 'ADD_TASK';
-export const UPDATE_TASK = 'UPDATE_TASK';
+export const UPDATE_TASKS = 'UPDATE_TASKS';
 export const REMOVE_TASK = 'REMOVE_TASK';
 export const COMPLETE_TASK = 'COMPLETE_TASK';
 export const TOOGLE_ALL = 'TOOGLE_ALL';
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
-
