@@ -108,6 +108,7 @@ class LeftDrawer extends Component {
     const { projectItems } = this.props;
     const project = findByIdFirst(projectItems, id);
     if (project) {
+      this.props.actions.updateSelectedProjectId(id);
       this.props.actions.updateSelectedOptions(project);
       this.props.actions.updateTitle(project.name);
       this.props.actions.updateTitleBarVisibility(true);

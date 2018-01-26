@@ -22,15 +22,15 @@ import Dialog, {
 import * as globalActions from '../../actions/global';
 import * as projectActions from '../../actions/projects'
 
-// import {
-//   defaultDialog,
-//   newLocationFormDialog,
-//   searchDialog,
-// } from '../Dialogs/dialogTypes';
+
 
 import {
   showSnackBarMsg,
 } from '../Snackbars/snackbarTypes';
+
+import {
+  isEmpty,
+} from '../../global';
 
 const styles = {
   floatinButton: {
@@ -55,10 +55,10 @@ class Project extends Component {
     super(props)
     this.state = {
       open: false,
+      taskName: '',
       checked: [1],
     }
-    //this.addNewTask = this.addNewTask.bind(this);
-
+    this.saveForm = this.saveForm.bind(this);
   }
 
   addNewTask = () => {
@@ -67,7 +67,28 @@ class Project extends Component {
   }
 
   closeForm = () => {
+
     this.setState({open: false});
+  }
+
+  saveForm = () => {
+    const { taskName } = this.state;
+    const { projectid } = this.props;
+    if(!isEmpty(taskName)){
+      //TODO: send post
+      const task = {
+        name: taskName,
+        projectId: projectid,
+      }
+
+      this.setState({open: false});
+    }
+    
+  }
+
+  handleOnChangeTask = (e) => {
+    const { value } = e.target;
+    this.setState({taskName: value});
   }
 
   handleToggle(value) {
@@ -84,6 +105,8 @@ class Project extends Component {
   }
 
   render() {
+    const { title } = this.props;
+    const { taskName} = this.state;
 
     return (
       <div style={styles.listViewRoot}>
@@ -119,24 +142,25 @@ class Project extends Component {
           <DialogTitle id="form-dialog-title">Add New Task</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              To add a new task to this location, please enter the task name. We will send
+              To add a new task for {`${title}`}, please enter the task name. We will send
               near by updates occationally.
             </DialogContentText>
             <TextField
               autoFocus
               required
               margin="dense"
-              id="taskname"
               label="Task Name"
               fullWidth
+              value={taskName}
+              onChange={this.handleOnChangeTask}
             />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.closeForm} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.closeForm} color="primary">
-              New Task
+            <Button onClick={this.saveForm} color="primary">
+              Save
             </Button>
           </DialogActions>
         </Dialog>
@@ -160,6 +184,7 @@ class Project extends Component {
 export default connect(
   (state) => ({
     projectid: state.global.selectedProjectId,
+    title: state.global.title,
     page: state.global.page,
     options: state.global.options,
     drawerState: state.global.drawer,
