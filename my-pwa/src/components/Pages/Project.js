@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
-import Checkbox from 'material-ui/Checkbox';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import Autosuggest from 'react-autosuggest';
@@ -12,31 +11,34 @@ import AddIcon from 'material-ui-icons/Add';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
 
 import * as globalActions from '../../actions/global';
 import * as projectActions from '../../actions/projects'
+import * as taskActions from '../../actions/tasks'
+import * as keys from '../../constants/storageKeys';
 
 import {
-  defaultDialog,
-  newLocationFormDialog,
-  searchDialog,
-} from '../Dialogs/dialogTypes';
-
-import {
-  showSnackBarMsg,
-} from '../Snackbars/snackbarTypes';
+  isEmpty,
+  findListById,
+  store,
+  isEqual,
+} from '../../global';
 
 const styles = {
   floatinButton: {
-    position: 'absolute',
-    bottom: 50,
-    right: 35
+    position: 'fixed',
+    bottom: 35,
+    right: 25
   },
   listViewRoot: {
     marginTop: '-10px',
     width: '100%',
-    // maxWidth: 360,
-    // backgroundColor: theme.palette.background.paper,
   },
   listViewItem: {
     padding: 15,
@@ -48,78 +50,116 @@ class Project extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      checked: [1],
+      open: false,
+      taskName: '',
     }
-    this.addNewLocation = this.addNewLocation.bind(this);
-    this.closeLocationForm = this.closeLocationForm.bind(this);
-    this.saveNewLocation = this.saveNewLocation.bind(this);
+    this.saveForm = this.saveForm.bind(this);
   }
 
-  addNewLocation() {
-    this.props.actions.updateTitleBarVisibility(false);
-    this.props.actions.updateSelectedPage('searchlocations');
-
+  addNewTask = () => {
+    this.setState({ open: true });
   }
 
-  saveNewLocation() {
-    this.props.actions.updateDialog(defaultDialog);
-    this.props.actions.updateSnackBar(showSnackBarMsg("Added New Task"));
+  closeForm = () => {
+    this.setState({ open: false });
   }
 
-  closeLocationForm() {
-    this.props.actions.updateDialog(defaultDialog);
-  }
-
-  handleToggle(value) {
-    const { checked } = this.state;
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
+  saveForm = () => {
+    const { taskName } = this.state;
+    const { projectid } = this.props;
+    if (!isEmpty(taskName)) {
+      //TODO: send post
+      const task = {
+        name: taskName,
+        projectId: projectid,
+      }
+      //TODO: if sucessful add to task
+      this.props.tasks.addTask(task);
+      this.setState({
+        open: false,
+        taskName: '',
+      });
     }
 
+  }
+
+  handleOnChangeTask = (e) => {
+    const { value } = e.target;
+    this.setState({ taskName: value });
   }
 
   render() {
+    const { title, taskItems, projectid } = this.props;
+    const { taskName } = this.state;
+    const taskList = () => {
+      const filteredItems = findListById(taskItems, "projectId", projectid);
+      return (
+        <List>
+          {
+            (!isEmpty(filteredItems)) ? filteredItems.map(item => (
+              <div key={item.id}>
+                <Paper elevation={4} square={true} >
+                  <ListItem dense button style={styles.listViewItem}>
+                    <ListItemText
+                      disableTypography
+                      primary={<Typography type="headline">{`${item.text}`}</Typography>}
+                    />
+                  </ListItem>
+                </Paper>
+
+              </div>
+
+            )) : null
+
+          }
+        </List>
+      )
+    }
 
     return (
       <div style={styles.listViewRoot}>
-        <List>
-          {[0, 1, 2, 3].map(value => (
-            <div key={value}>
-            <Paper elevation={4} square={true} >
-              <ListItem dense button style={styles.listViewItem}>
-                <ListItemText 
-                disableTypography
-                primary={<Typography type="headline">{`Line item ${value + 1}`}</Typography>}
-                />
 
-                <ListItemSecondaryAction>
-                  <Checkbox
-                    onChange={this.handleToggle(value)}
-                    checked={this.state.checked.indexOf(value) !== -1}
-                  />
-                </ListItemSecondaryAction>
-              </ListItem>
-              </Paper>
-
-            </div>
-
-          ))}
-        </List>
-
+        {taskList()}
+        <Dialog
+          open={this.state.open}
+          onClose={this.closeForm}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Add New Task</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              To add a new task for {`${title}`}, please enter the task name. We will send
+              near by updates occationally.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              label="Task Name"
+              fullWidth
+              value={taskName}
+              onChange={this.handleOnChangeTask}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.closeForm} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.saveForm} color="primary">
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <Button
           fab color="primary"
           aria-label="add"
           style={styles.floatinButton}
-          onClick={this.addNewLocation}
+          onClick={this.addNewTask}
         >
           <AddIcon />
         </Button>
+
 
       </div>
     );
@@ -129,13 +169,17 @@ class Project extends Component {
 export default connect(
   (state) => ({
     projectid: state.global.selectedProjectId,
+    selectedTasks: state.global.selectedTasks,
+    title: state.global.title,
     page: state.global.page,
     options: state.global.options,
     drawerState: state.global.drawer,
+    taskItems: state.tasks,
 
   }),
   (dispatch) => ({
     actions: bindActionCreators(globalActions, dispatch),
     projects: bindActionCreators(projectActions, dispatch),
+    tasks: bindActionCreators(taskActions, dispatch),
   })
 )(Project)

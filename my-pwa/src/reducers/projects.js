@@ -23,8 +23,7 @@ const reducer = (state = initState, action) => {
           name: payload.trim(),
           createdAt: new Date(),
           completedAt: null,
-          completed: false,
-          tasks: []
+          completed: false
         }
       ];
       

@@ -76,3 +76,10 @@ export function updateSelectedProjectId(value) {
     payload: value,
   };
 }
+
+export function updateSelectedTasks(tasks) {
+  return {
+    type: types.UPDATE_SELECTED_TASKS,
+    payload: tasks,
+  };
+}

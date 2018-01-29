@@ -36,7 +36,8 @@ class TitleBar extends Component {
     const { title } = this.props;
     return (
       <div style={styles.root}>
-        <AppBar position="static">
+                {/*position="static"*/}
+        <AppBar position="fixed">
           <Toolbar>
             <IconButton
               style={styles.menuButton}

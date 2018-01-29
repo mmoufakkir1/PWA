@@ -23,6 +23,7 @@ import grey from 'material-ui/colors/grey';
 import Card, { CardHeader } from 'material-ui/Card';
 import * as globalActions from '../../actions/global';
 import * as projectActions from '../../actions/projects';
+import * as keys from '../../constants/storageKeys';
 
 import {
   defaultDialog,
@@ -36,6 +37,8 @@ import {
 import {
   findByIdFirst,
   isEmpty,
+  store,
+  findListById
 } from '../../global';
 
 const styles = {
@@ -103,11 +106,21 @@ class LeftDrawer extends Component {
 
   };
 
+  // setProjectTaskItems = (id) => {
+  //   const tasks = store(keys.TASKS)
+  //   const filteredItems = findListById(tasks, "projectId", id);
+  //   if(!isEmpty(filteredItems)) {
+  //     this.props.actions.updateSelectedTasks(filteredItems);
+  //   }
+  // }
+
   handleListItemClick(e, val) {
     const id = e.currentTarget.id;
     const { projectItems } = this.props;
     const project = findByIdFirst(projectItems, id);
     if (project) {
+      //this.setProjectTaskItems(id);
+      this.props.actions.updateSelectedProjectId(id);
       this.props.actions.updateSelectedOptions(project);
       this.props.actions.updateTitle(project.name);
       this.props.actions.updateTitleBarVisibility(true);
