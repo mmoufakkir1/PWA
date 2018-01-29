@@ -27,6 +27,7 @@ const initGlobalState = {
 
   },
   selectedProjectId: '',
+  selectedTasks: [],
 };
 
 export default function global(state = initGlobalState, action) {
@@ -88,6 +89,11 @@ export default function global(state = initGlobalState, action) {
     case types.UPDATE_SELECTED_PROJECT_ID:
       retVal = { ...state };
       retVal.selectedProjectId = payload;
+      break;
+
+    case types.UPDATE_SELECTED_TASKS:
+      retVal = { ...state };
+      retVal.selectedTasks = payload;
       break;
 
     default:

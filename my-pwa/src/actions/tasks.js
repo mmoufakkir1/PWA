@@ -1,9 +1,9 @@
 import * as types from '../constants/actionTypes'
 
-export const addTask = (todo) => {
+export const addTask = (task) => {
   return {
     type: types.ADD_TASK,
-    payload: { todo }
+    payload: { task }
   }
 }
 
@@ -18,5 +18,12 @@ export const completeTask = (id) => {
   return {
     type: types.COMPLETE_TASK,
     payload: { id }
+  }
+}
+
+export const updateTasks = (tasks) => {
+  return {
+    type: types.UPDATE_TASKS,
+    payload: tasks
   }
 }
