@@ -3,6 +3,7 @@ import React from 'react';
 import Home from './components/Pages/Home';
 import AboutUs from './components/Pages/AboutUs';
 import SearchLocations from './components/Pages/SearchLocations';
+import Search from './components/Pages/Search';
 import Project from './components/Pages/Project';
 
 
@@ -25,6 +26,10 @@ export function getPage(selectedPage, options) {
 
       case 'searchlocations':
         page = (<SearchLocations />);
+        break;
+
+      case 'search':
+        page = (<Search />);
         break;
     }
 

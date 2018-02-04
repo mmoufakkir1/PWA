@@ -49,6 +49,7 @@ class Home extends Component {
     
   }
 
+
   saveNewLocation() {
     this.props.actions.updateDialog(defaultDialog);
     this.props.actions.updateSnackBar(showSnackBarMsg("Added New Task"));

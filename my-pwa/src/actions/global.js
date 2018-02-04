@@ -28,12 +28,34 @@ export function updateSelectedOptions(options) {
   };
 }
 
+export function updateDimensions(dimensions) {
+  return {
+    type: types.UPDATE_DIMENSIONS,
+    payload: dimensions,
+  };
+}
+
 export function updateDrawer(value) {
   return {
     type: types.UPDATE_DRAWER,
     payload: value,
   };
 }
+
+export function updateShowDrawer(value) {
+  return {
+    type: types.UPDATE_SHOW_DRAWER,
+    payload: value,
+  };
+}
+
+export function updateShowBackButton(value) {
+  return {
+    type: types.UPDATE_SHOW_BACKBUTTON,
+    payload: value,
+  };
+}
+
 
 export function updateDialog(objDialog) {
   return {
@@ -52,6 +74,13 @@ export function updateSnackBar(objSnackBar) {
 export function updateSearchText(value) {
   return {
     type: types.UPDATE_SEARCH_TEXT,
+    payload: value,
+  };
+}
+
+export function updateSearchIcon(value) {
+  return {
+    type: types.UPDATE_SEARCH_ICON,
     payload: value,
   };
 }
