@@ -18,7 +18,7 @@ import * as projectActions from '../../actions/projects'
 
 import {
   isEmpty,
-  apiUrl,
+  searchValue,
 } from '../../global'
 
 
@@ -27,11 +27,10 @@ class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value : '',
+      value: '',
     }
 
-    //this.handleClear = this.handleClear.bind(this);
-    //this.handleCancel = this.handleCancel.bind(this);
+
     this.focusSearchInputField = this.focusSearchInputField.bind(this);
   }
 
@@ -40,25 +39,31 @@ class Search extends Component {
   }
 
   handleChange = event => {
-    this.setState({value: event.target.value})
+    this.setState({ value: event.target.value })
   }
 
   handleClear = () => {
-    this.setState({value : ''});
+    this.setState({ value: '' });
     this.focusSearchInputField();
   }
   handleCancel = () => {
     this.props.actions.updateSelectedPage('home');
   }
 
-  focusSearchInputField(){
+  focusSearchInputField() {
     this.searchinput.focus();
   }
 
 
   render() {
-    const { dimensions } = this.props;
+    let filteredItems = [];
+    const { dimensions, taskItems, projectItems } = this.props;
     const { value } = this.state;
+    if (!isEmpty(value)) {
+      filteredItems = searchValue(taskItems, projectItems, value);
+    }
+
+
     const styles = {
       root: {
         width: '100%',
@@ -85,21 +90,22 @@ class Search extends Component {
       },
     };
 
+
     return (
 
       <div style={styles.root}>
-      <TextField
-        autoFocus
-        name="searchinput"
-        inputRef={el => this.searchinput = el}
-        label=""
-        placeholder="search for keywords.."
-        helperText=""
-        margin="dense"
-        style={styles.textField}
-        value={value}
-        onChange={this.handleChange}
-      />
+        <TextField
+          autoFocus
+          name="searchinput"
+          inputRef={el => this.searchinput = el}
+          label=""
+          placeholder="search for keywords.."
+          helperText=""
+          margin="dense"
+          style={styles.textField}
+          value={value}
+          onChange={this.handleChange}
+        />
         {
           (value.length > 0) ? (
             <div>
@@ -110,14 +116,21 @@ class Search extends Component {
           ) : null
         }
 
+
         <List>
-          <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText primary="Default notification ringtone" secondary="Tethys" />
-          </ListItem>
+          {
+            (!isEmpty(filteredItems)) ? filteredItems.map(item => (
+              <div key={item.id}>
+                <ListItem button>
+                  <ListItemText
+                    primary={item.projectName}
+                    secondary={item.taskName}
+                  />
+                </ListItem>
+                <Divider />
+              </div>
+            )) : null
+          }
         </List>
 
         <div style={styles.cancelButton}>
@@ -142,6 +155,8 @@ export default connect(
     searchText: state.global.searchText,
     suggestions: state.global.searchSuggestions,
     dimensions: state.global.dimensions,
+    taskItems: state.tasks,
+    projectItems: state.projects,
   }),
   (dispatch) => ({
     actions: bindActionCreators(globalActions, dispatch),
