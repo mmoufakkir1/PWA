@@ -90,7 +90,7 @@ class LeftDrawer extends Component {
   };
 
   addNewLocation() {
-    this.props.actions.updateTitleBarVisibility(false);
+    
     this.props.actions.updateSelectedPage('searchlocations');
   }
 
@@ -123,8 +123,6 @@ class LeftDrawer extends Component {
       this.props.actions.updateSelectedProjectId(id);
       this.props.actions.updateSelectedOptions(project);
       this.props.actions.updateTitle(project.name);
-      this.props.actions.updateTitleBarVisibility(true);
-      this.props.actions.updateDrawer(false);
       this.props.actions.updateSelectedPage('project');
     }
   }

@@ -44,7 +44,7 @@ class Home extends Component {
       this.props.actions.updateDrawer(false);
   }
   addNewLocation() {
-    this.props.actions.updateTitleBarVisibility(false);
+    
     this.props.actions.updateSelectedPage('searchlocations');
     
   }

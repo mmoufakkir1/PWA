@@ -73,27 +73,7 @@ class App extends Component {
   render() {
     const { onboarded, loading } = this.state
     const { page, options, dialog, snackbar, showTitleBar } = this.props;
-    const context = () => {
-      //set predefine states
-      switch (page) {
-
-        case 'home':
-          this.props.actions.updateShowDrawer(true);
-          this.props.actions.updateShowBackButton(false);
-          this.props.actions.updateSearchIcon(true);
-          break;
-
-        case 'search':
-          this.props.actions.updateSearchIcon(false);
-          this.props.actions.updateShowDrawer(false);
-          this.props.actions.updateShowBackButton(true);
-          break;
-
-        default:
-          break;
-      }
-      return getPage(page, options);
-    };
+    const context = () => {return getPage(page, options, this.props.actions);};
 
     if (loading) return null
     //see notes if(!onboarded) return <WelcomeScreen onPress={this.goToApp} />
