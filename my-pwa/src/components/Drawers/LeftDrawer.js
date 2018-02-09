@@ -35,7 +35,7 @@ import {
 } from '../Snackbars/snackbarTypes';
 
 import {
-  findByIdFirst,
+  findProjectByIdFirst,
   isEmpty,
   store,
   findListById
@@ -90,7 +90,7 @@ class LeftDrawer extends Component {
   };
 
   addNewLocation() {
-    this.props.actions.updateTitleBarVisibility(false);
+    
     this.props.actions.updateSelectedPage('searchlocations');
   }
 
@@ -106,25 +106,15 @@ class LeftDrawer extends Component {
 
   };
 
-  // setProjectTaskItems = (id) => {
-  //   const tasks = store(keys.TASKS)
-  //   const filteredItems = findListById(tasks, "projectId", id);
-  //   if(!isEmpty(filteredItems)) {
-  //     this.props.actions.updateSelectedTasks(filteredItems);
-  //   }
-  // }
-
+ 
   handleListItemClick(e, val) {
     const id = e.currentTarget.id;
     const { projectItems } = this.props;
-    const project = findByIdFirst(projectItems, id);
+    const project = findProjectByIdFirst(projectItems, id);
     if (project) {
-      //this.setProjectTaskItems(id);
       this.props.actions.updateSelectedProjectId(id);
       this.props.actions.updateSelectedOptions(project);
       this.props.actions.updateTitle(project.name);
-      this.props.actions.updateTitleBarVisibility(true);
-      this.props.actions.updateDrawer(false);
       this.props.actions.updateSelectedPage('project');
     }
   }

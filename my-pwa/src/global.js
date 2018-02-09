@@ -18,7 +18,7 @@ export function newGuid() {
 }
 
 /******************************************* 
-findByIdFirst:
+findProjectByIdFirst:
 input: 
     - array<obj> containing an id parameter
     - id<string> id to compare
@@ -26,7 +26,7 @@ output:
     - if found First obj item
     - if not found null
 *********************************************/
-export function findByIdFirst(objArray, id) {
+export function findProjectByIdFirst(objArray, id) {
   let retVal;
   if (!isEmpty(objArray)) {
     const items = objArray.filter(item => item.id === id);
@@ -62,6 +62,40 @@ export function findListById(objArray, key, id) {
     }
   } else {
     retVal = null;
+  }
+  return retVal;
+}
+
+/******************************************* 
+searchValue:
+input: 
+    - array<obj> containing an id parameter
+    - value<string> value to search
+    exmple: searchValue(objArray, "1234")
+output: 
+    - array<obj>
+    - if not null
+*********************************************/
+export function searchValue(tasks, projects, value) {
+  let retVal = [];
+  if (!isEmpty(tasks) && !isEmpty(value)) {
+    for (let i = 0; i < tasks.length; i++) {
+      const task = tasks[i];
+      const project = findProjectByIdFirst(projects, task.projectId);
+      const isValueInTask = (task.text.toLowerCase().indexOf(value.toLowerCase()) !== -1)
+      const isValueInProject = (project.name.toLowerCase().indexOf(value.toLowerCase()) !== -1)
+      if (isValueInTask || isValueInProject) {
+        const searchItem = retVal.filter(item => item.id === task.id);
+        if (isEmpty(searchItem)) {
+          retVal.push({
+            id: task.id,
+            projectName: project.name,
+            taskName: task.text,
+          });
+        }
+
+      }
+    }
   }
   return retVal;
 }
