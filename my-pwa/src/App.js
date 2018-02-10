@@ -11,7 +11,6 @@ import Drawer from './components/Drawers/LeftDrawer'
 import Snackbar from 'material-ui/Snackbar';
 import Fade from 'material-ui/transitions/Fade';
 import * as globalActions from './actions/global';
-import * as projectActions from './actions/projects';
 import * as taskActions from './actions/tasks';
 import * as keys from './constants/storageKeys';
 import {
@@ -63,7 +62,7 @@ class App extends Component {
       const items = store(keys.PROJECTS) || [];
       const tasks = store(keys.TASKS) || [];
       this.props.tasks.updateTasks(tasks)
-      this.props.projects.updateProjects(items);
+      this.props.actions.updateProjects(items);
     }
     store(keys.ONBOARDED, true)
     this.setState({ onboarded: true })
@@ -143,7 +142,6 @@ export default connect(
   }),
   (dispatch) => ({
     actions: bindActionCreators(globalActions, dispatch),
-    projects: bindActionCreators(projectActions, dispatch),
     tasks: bindActionCreators(taskActions, dispatch),
   })
 )(App)

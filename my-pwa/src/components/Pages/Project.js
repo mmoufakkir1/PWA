@@ -19,7 +19,6 @@ import Dialog, {
 } from 'material-ui/Dialog';
 
 import * as globalActions from '../../actions/global';
-import * as projectActions from '../../actions/projects'
 import * as taskActions from '../../actions/tasks'
 import * as keys from '../../constants/storageKeys';
 
@@ -179,7 +178,6 @@ export default connect(
   }),
   (dispatch) => ({
     actions: bindActionCreators(globalActions, dispatch),
-    projects: bindActionCreators(projectActions, dispatch),
     tasks: bindActionCreators(taskActions, dispatch),
   })
 )(Project)
