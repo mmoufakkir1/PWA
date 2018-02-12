@@ -155,7 +155,7 @@ export default connect(
     suggestions: state.global.searchSuggestions,
     dimensions: state.global.dimensions,
     taskItems: state.tasks,
-    projectItems: state.projects,
+    projectItems: state.global.projects,
   }),
   (dispatch) => ({
     actions: bindActionCreators(globalActions, dispatch),
