@@ -36,7 +36,7 @@ const styles = {
     right: 25
   },
   listViewRoot: {
-    marginTop: '-10px',
+    marginTop: '50px',
     width: '100%',
   },
   listViewItem: {
@@ -87,9 +87,21 @@ class Project extends Component {
     this.setState({ taskName: value });
   }
 
+  handleKeyPressTask = (e) => {
+    if (e.key === 'Enter') {
+      this.saveForm();
+      // to Focus- document.getElementById("myAnchor").focus();
+      // to blur - document.getElementById("myAnchor").blur();
+      // allow react rendering
+      setTimeout(function () {document.getElementById("btnAddTask").blur();}, 300);
+    }
+  }
+
+
   render() {
     const { title, taskItems, projectid } = this.props;
     const { taskName } = this.state;
+
     const taskList = () => {
       const filteredItems = findListById(taskItems, "projectId", projectid);
       return (
@@ -115,7 +127,9 @@ class Project extends Component {
       )
     }
 
+
     return (
+
       <div style={styles.listViewRoot}>
 
         {taskList()}
@@ -138,6 +152,7 @@ class Project extends Component {
               fullWidth
               value={taskName}
               onChange={this.handleOnChangeTask}
+              onKeyPress={this.handleKeyPressTask}
             />
           </DialogContent>
           <DialogActions>
@@ -150,11 +165,13 @@ class Project extends Component {
           </DialogActions>
         </Dialog>
 
-        <Button
+        <Button 
+          id="btnAddTask" 
           fab color="primary"
           aria-label="add"
           style={styles.floatinButton}
           onClick={this.addNewTask}
+          // onKeyboardFocus={this.btnAddNewTask}
         >
           <AddIcon />
         </Button>
