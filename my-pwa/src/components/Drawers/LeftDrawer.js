@@ -89,7 +89,7 @@ class LeftDrawer extends Component {
   };
 
   addNewLocation() {
-    
+
     this.props.actions.updateSelectedPage('searchlocations');
   }
 
@@ -105,7 +105,7 @@ class LeftDrawer extends Component {
 
   };
 
- 
+
   handleListItemClick(e, val) {
     const id = e.currentTarget.id;
     const { projectItems } = this.props;
@@ -123,7 +123,7 @@ class LeftDrawer extends Component {
     const {
       drawerState,
       projectItems,
-     } = this.props;
+    } = this.props;
 
     const header = (
       <div>
@@ -160,16 +160,16 @@ class LeftDrawer extends Component {
 
           {projectItems.map((item, index) => {
             return (
-             <div key={item.id}>
-              <ListItem
-                id={item.id}
-                button 
-                onClick={this.handleListItemClick}  >
-                <FolderIcon color="primary" />
-                <ListItemText primary={item.name} secondary="" />
-              </ListItem>
-              <Divider />
-            </div>
+              <div key={item.id}>
+                <ListItem
+                  id={item.id}
+                  button
+                  onClick={this.handleListItemClick}  >
+                  <FolderIcon color="primary" />
+                  <ListItemText primary={item.name} secondary="" />
+                </ListItem>
+                <Divider />
+              </div>
             )
 
           })}
@@ -193,7 +193,10 @@ class LeftDrawer extends Component {
           <div style={styles.footer}>
             <AppBar position="static" color="primary">
               <Toolbar>
-                <IconButton color="contrast" onClick={this.addNewLocation}>
+                <IconButton
+                  color="inherit"
+                  onClick={this.addNewLocation}
+                >
                   <AddLocationIcon />
                 </IconButton>
                 <Button

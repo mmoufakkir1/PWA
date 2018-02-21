@@ -200,7 +200,7 @@ class Project extends Component {
 
         <Button 
           id="btnAddTask" 
-          fab color="primary"
+          color="primary"
           aria-label="add"
           style={styles.floatinButton}
           onClick={this.addNewTask}

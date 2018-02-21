@@ -65,7 +65,7 @@ class Home extends Component {
       <div>
 
       <Button 
-        fab color="primary" 
+        color="primary" 
         aria-label="add" 
         style={styles.floatinButton}
         onClick={this.addNewLocation}
