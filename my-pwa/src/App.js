@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Reboot from 'material-ui/Reboot';
-import Dialog, {DialogActions, DialogContent, DialogContentText, DialogTitle,} from 'material-ui/Dialog';
+import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle, } from 'material-ui/Dialog';
 import { getPage } from './router';
 import { store } from './global'
 import DetailPage from './components/Pages/Detail'
@@ -11,7 +11,6 @@ import Drawer from './components/Drawers/LeftDrawer'
 import Snackbar from 'material-ui/Snackbar';
 import Fade from 'material-ui/transitions/Fade';
 import * as globalActions from './actions/global';
-import * as projectActions from './actions/projects';
 import * as taskActions from './actions/tasks';
 import * as keys from './constants/storageKeys';
 import {
@@ -30,9 +29,11 @@ class App extends Component {
     this.state = { onboarded: false, loading: true }
     this.goToApp = this.goToApp.bind(this);
     this.closeSnackBar = this.closeSnackBar.bind(this);
+    this.updateDimensions = this.updateDimensions.bind(this);
   }
 
   componentWillMount() {
+    window.addEventListener('resize', this.updateDimensions);
     const onBoarded = store(keys.ONBOARDED);
     if (onBoarded) {
       this.setState({ loading: false })
@@ -40,17 +41,28 @@ class App extends Component {
     this.goToApp();
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
   closeSnackBar() {
     this.props.actions.updateSnackBar(defaultSnackBar);
   }
 
+  updateDimensions() {
+    this.props.actions.updateDimensions({
+      height: window.innerHeight,
+      width: window.innerWidth,
+    });
+  }
+
   goToApp() {
     const { projectItems } = this.props;
-    if(isEmpty(projectItems)){
+    if (isEmpty(projectItems)) {
       const items = store(keys.PROJECTS) || [];
       const tasks = store(keys.TASKS) || [];
       this.props.tasks.updateTasks(tasks)
-      this.props.projects.updateProjects(items);
+      this.props.actions.updateProjects(items);
     }
     store(keys.ONBOARDED, true)
     this.setState({ onboarded: true })
@@ -60,7 +72,7 @@ class App extends Component {
   render() {
     const { onboarded, loading } = this.state
     const { page, options, dialog, snackbar, showTitleBar } = this.props;
-    const context = () => { return getPage(page, options); };
+    const context = () => {return getPage(page, options, this.props.actions);};
 
     if (loading) return null
     //see notes if(!onboarded) return <WelcomeScreen onPress={this.goToApp} />
@@ -130,7 +142,6 @@ export default connect(
   }),
   (dispatch) => ({
     actions: bindActionCreators(globalActions, dispatch),
-    projects: bindActionCreators(projectActions, dispatch),
     tasks: bindActionCreators(taskActions, dispatch),
   })
 )(App)

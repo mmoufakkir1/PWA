@@ -28,12 +28,34 @@ export function updateSelectedOptions(options) {
   };
 }
 
+export function updateDimensions(dimensions) {
+  return {
+    type: types.UPDATE_DIMENSIONS,
+    payload: dimensions,
+  };
+}
+
 export function updateDrawer(value) {
   return {
     type: types.UPDATE_DRAWER,
     payload: value,
   };
 }
+
+export function updateShowDrawer(value) {
+  return {
+    type: types.UPDATE_SHOW_DRAWER,
+    payload: value,
+  };
+}
+
+export function updateShowBackButton(value) {
+  return {
+    type: types.UPDATE_SHOW_BACKBUTTON,
+    payload: value,
+  };
+}
+
 
 export function updateDialog(objDialog) {
   return {
@@ -52,6 +74,13 @@ export function updateSnackBar(objSnackBar) {
 export function updateSearchText(value) {
   return {
     type: types.UPDATE_SEARCH_TEXT,
+    payload: value,
+  };
+}
+
+export function updateSearchIcon(value) {
+  return {
+    type: types.UPDATE_SEARCH_ICON,
     payload: value,
   };
 }
@@ -83,3 +112,34 @@ export function updateSelectedTasks(tasks) {
     payload: tasks,
   };
 }
+
+//----Projects-------->
+export const addProject = (name) => {
+  return {
+    type: types.ADD_PROJECT,
+    payload: name
+  }
+}
+
+export const removeProject = (id) => {
+  return {
+    type: types.REMOVE_PROJECT,
+    payload: { id }
+  }
+}
+
+export const completeProject = (id) => {
+  return {
+    type: types.COMPLETE_PROJECT,
+    payload: { id }
+  }
+}
+
+export const updateProjects = (projects) => {
+  return {
+    type: types.UPDATE_PROJECTS,
+    payload: projects
+  }
+}
+
+//<<---------End Projects

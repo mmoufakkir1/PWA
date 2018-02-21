@@ -1,11 +1,25 @@
 import * as types from '../constants/actionTypes'
+import * as keys from '../constants/storageKeys';
+import { 
+  newGuid,
+  store,
+  isEmpty, 
+} from '../global'
 
 const initGlobalState = {
   page: 'home',
+  prevPage: '',
   options: {},
+  dimensions: {
+    height: 0,
+    width: 0
+  },
   title: 'FindMyList',
   subTitle: '',
   showTitleBar: true,
+  showSearchIcon: true,
+  showBackButton: false,
+  showDrawer: true,
   drawer: false,
   searchText: '',
   searchSuggestions: [],
@@ -28,6 +42,7 @@ const initGlobalState = {
   },
   selectedProjectId: '',
   selectedTasks: [],
+  projects: [],
 };
 
 export default function global(state = initGlobalState, action) {
@@ -48,6 +63,7 @@ export default function global(state = initGlobalState, action) {
 
     case types.UPDATE_SELECTED_PAGE:
       retVal = { ...state };
+      retVal.prevPage = (retVal.prevPage != payload) ? retVal.page : payload;
       retVal.page = payload;
       break;
 
@@ -56,9 +72,24 @@ export default function global(state = initGlobalState, action) {
       retVal.options = payload;
       break;
 
+    case types.UPDATE_DIMENSIONS:
+      retVal = { ...state };
+      retVal.dimensions = payload;
+      break;
+
     case types.UPDATE_DRAWER:
       retVal = { ...state };
       retVal.drawer = payload;
+      break;
+
+    case types.UPDATE_SHOW_DRAWER:
+      retVal = { ...state };
+      retVal.showDrawer = payload;
+      break;
+
+    case types.UPDATE_SHOW_BACKBUTTON:
+      retVal = { ...state };
+      retVal.showBackButton = payload;
       break;
 
     case types.UPDATE_DIALOG:
@@ -74,6 +105,11 @@ export default function global(state = initGlobalState, action) {
     case types.UPDATE_SEARCH_TEXT:
       retVal = { ...state };
       retVal.searchText = payload;
+      break;
+
+    case types.UPDATE_SEARCH_ICON:
+      retVal = { ...state };
+      retVal.showSearchIcon = payload;
       break;
 
     case types.UPDATE_SEARCH_SUGGESTIONS:
@@ -96,9 +132,60 @@ export default function global(state = initGlobalState, action) {
       retVal.selectedTasks = payload;
       break;
 
+    //---projects---->
+    case types.ADD_PROJECT:
+      const _id = newGuid();
+      retVal = { ...state };
+      retVal.projects = [
+        ...state.projects,
+        {
+          id: _id, 
+          name: payload.trim(),
+          createdAt: new Date(),
+          completedAt: null,
+          completed: false
+        }
+      ];
+      retVal.selectedProjectId = _id;
+      break;
+
+    case types.UPDATE_PROJECTS:
+      retVal = { ...state };
+      retVal.projects = payload;
+      break;
+
+
+    case types.REMOVE_PROJECT:
+      retVal = { ...state };
+      retVal.projects = state.projects.filter(project => project.id !== payload.id);
+      break;
+
+
+    case types.COMPLETE_PROJECT:
+      retVal = { ...state };
+      retVal.projects = state.projects.map(project => {
+        const isCompleted = !project.complete
+        return (project.id === project.id)
+          ?
+          {
+            ...project,
+            completed: isCompleted,
+            completedAt: isCompleted ? new Date() : null
+          }
+          : project
+      });
+      break;
+
+    //<------------End Projects
+
     default:
       retVal = state;
       break;
   }
+
+  if(!isEmpty(retVal.projects)) {
+    store(keys.PROJECTS, retVal.projects);
+  }
+
   return retVal;
 }

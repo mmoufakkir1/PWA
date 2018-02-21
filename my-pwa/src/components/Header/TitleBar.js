@@ -6,9 +6,14 @@ import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import SearchIcon from 'material-ui-icons/Search';
+import ArrowBackIcon from 'material-ui-icons/ArrowBack';
 import MenuIcon from 'material-ui-icons/Menu';
 import Typography from 'material-ui/Typography';
 import * as globalActions from '../../actions/global';
+
+import {
+  isEmpty
+} from '../../global';
 
 const styles = {
   root: {
@@ -32,27 +37,67 @@ class TitleBar extends Component {
     this.props.actions.updateDrawer(true);
   };
 
+  handleGotoSearch = () => {
+    this.props.actions.updateSelectedPage('search');
+
+  }
+
+  handleBack = () => {
+    const { prevPage } = this.props;
+    if (!isEmpty(prevPage)) {
+      this.props.actions.updateSelectedPage(prevPage);
+    }
+  }
+
   render() {
-    const { title } = this.props;
+    const { title, showSearchIcon, showBackButton, showDrawer } = this.props;
     return (
       <div style={styles.root}>
-                {/*position="static"*/}
+        {/*position="static"*/}
         <AppBar position="fixed">
           <Toolbar>
-            <IconButton
-              style={styles.menuButton}
-              color="contrast"
-              onClick={this.handleDrawerOpen}
-              aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
+
+            {
+              (showBackButton) ? (
+                <IconButton
+                  style={styles.menuButton}
+                  color="contrast"
+                  onClick={this.handleBack}
+                  aria-label="Menu">
+                  <ArrowBackIcon />
+                </IconButton>
+              ) : null
+            }
+
+            {
+              (showDrawer) ? (
+                <IconButton
+                  style={styles.menuButton}
+                  color="contrast"
+                  onClick={this.handleDrawerOpen}
+                  aria-label="Menu">
+                  <MenuIcon />
+                </IconButton>
+              ) : null
+            }
+
 
             <Typography type="title" color="inherit" style={styles.flex} >
               {title}
             </Typography>
-            <IconButton color="contrast">
-              <SearchIcon />
-            </IconButton>
+
+            {
+              /*Search Icon Button*/
+              (showSearchIcon) ? (
+                <IconButton
+                  color="contrast"
+                  onClick={this.handleGotoSearch}
+                >
+                  <SearchIcon />
+                </IconButton>
+              ) : null
+            }
+
           </Toolbar>
         </AppBar>
       </div>
@@ -63,8 +108,12 @@ class TitleBar extends Component {
 export default connect(
   (state) => ({
     page: state.global.page,
+    prevPage: state.global.prevPage,
     options: state.global.options,
     title: state.global.title,
+    showSearchIcon: state.global.showSearchIcon,
+    showDrawer: state.global.showDrawer,
+    showBackButton: state.global.showBackButton,
   }),
   (dispatch) => ({
     actions: bindActionCreators(globalActions, dispatch)
