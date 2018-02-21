@@ -1,4 +1,10 @@
 import * as types from '../constants/actionTypes'
+import * as keys from '../constants/storageKeys';
+import { 
+  newGuid,
+  store,
+  isEmpty, 
+} from '../global'
 
 const initGlobalState = {
   page: 'home',
@@ -36,6 +42,7 @@ const initGlobalState = {
   },
   selectedProjectId: '',
   selectedTasks: [],
+  projects: [],
 };
 
 export default function global(state = initGlobalState, action) {
@@ -125,9 +132,60 @@ export default function global(state = initGlobalState, action) {
       retVal.selectedTasks = payload;
       break;
 
+    //---projects---->
+    case types.ADD_PROJECT:
+      const _id = newGuid();
+      retVal = { ...state };
+      retVal.projects = [
+        ...state.projects,
+        {
+          id: _id, 
+          name: payload.trim(),
+          createdAt: new Date(),
+          completedAt: null,
+          completed: false
+        }
+      ];
+      retVal.selectedProjectId = _id;
+      break;
+
+    case types.UPDATE_PROJECTS:
+      retVal = { ...state };
+      retVal.projects = payload;
+      break;
+
+
+    case types.REMOVE_PROJECT:
+      retVal = { ...state };
+      retVal.projects = state.projects.filter(project => project.id !== payload.id);
+      break;
+
+
+    case types.COMPLETE_PROJECT:
+      retVal = { ...state };
+      retVal.projects = state.projects.map(project => {
+        const isCompleted = !project.complete
+        return (project.id === project.id)
+          ?
+          {
+            ...project,
+            completed: isCompleted,
+            completedAt: isCompleted ? new Date() : null
+          }
+          : project
+      });
+      break;
+
+    //<------------End Projects
+
     default:
       retVal = state;
       break;
   }
+
+  if(!isEmpty(retVal.projects)) {
+    store(keys.PROJECTS, retVal.projects);
+  }
+
   return retVal;
 }
