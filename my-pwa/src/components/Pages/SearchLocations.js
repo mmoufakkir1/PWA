@@ -9,10 +9,7 @@ import SaveIcon from 'material-ui-icons/Save';
 import CancelIcon from 'material-ui-icons/Cancel';
 import IconButton from 'material-ui/IconButton';
 import Button from 'material-ui/Button';
-
-
 import * as globalActions from '../../actions/global'
-import * as projectActions from '../../actions/projects'
 
 import {
   isEmpty,
@@ -69,9 +66,9 @@ class SearchLocations extends Component {
   handleSave() {
     const { searchText } = this.props;
     if(!isEmpty(searchText)){
-      this.props.projects.addProject(searchText);
+      this.props.actions.addProject(searchText);
       this.props.actions.updateTitle(searchText);
-      this.props.actions.updateSelectedPage('home');
+      this.props.actions.updateSelectedPage('project');
     }
   }
 
@@ -146,6 +143,5 @@ export default connect(
   }),
   (dispatch) => ({
     actions: bindActionCreators(globalActions, dispatch),
-    projects: bindActionCreators(projectActions, dispatch),
   })
 )(SearchLocations)

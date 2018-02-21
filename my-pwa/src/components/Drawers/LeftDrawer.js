@@ -22,7 +22,6 @@ import blue from 'material-ui/colors/blue';
 import grey from 'material-ui/colors/grey';
 import Card, { CardHeader } from 'material-ui/Card';
 import * as globalActions from '../../actions/global';
-import * as projectActions from '../../actions/projects';
 import * as keys from '../../constants/storageKeys';
 
 import {
@@ -219,11 +218,10 @@ export default connect(
     page: state.global.page,
     options: state.global.options,
     drawerState: state.global.drawer,
-    projectItems: state.projects,
+    projectItems: state.global.projects,
   }),
   (dispatch) => ({
     actions: bindActionCreators(globalActions, dispatch),
-    projects: bindActionCreators(projectActions, dispatch),
   })
 )(LeftDrawer)
 

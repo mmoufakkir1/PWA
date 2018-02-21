@@ -14,7 +14,6 @@ import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 
 import * as globalActions from '../../actions/global'
-import * as projectActions from '../../actions/projects'
 
 import {
   isEmpty,
@@ -156,10 +155,9 @@ export default connect(
     suggestions: state.global.searchSuggestions,
     dimensions: state.global.dimensions,
     taskItems: state.tasks,
-    projectItems: state.projects,
+    projectItems: state.global.projects,
   }),
   (dispatch) => ({
     actions: bindActionCreators(globalActions, dispatch),
-    projects: bindActionCreators(projectActions, dispatch),
   })
 )(Search)
