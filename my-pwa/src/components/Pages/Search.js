@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import BottomNavigation, { BottomNavigationAction } from 'material-ui/BottomNavigation';
-import AutoComplete from '../AutoComplete'
 import ClearIcon from 'material-ui-icons/Clear';
-import SaveIcon from 'material-ui-icons/Save';
-import CancelIcon from 'material-ui-icons/Cancel';
 import IconButton from 'material-ui/IconButton';
 import Button from 'material-ui/Button';
 import List, { ListItem, ListItemText } from 'material-ui/List';
@@ -45,9 +42,6 @@ class Search extends Component {
     this.setState({ value: '' });
     this.focusSearchInputField();
   }
-  handleCancel = () => {
-    this.props.actions.updateSelectedPage('home');
-  }
 
   focusSearchInputField() {
     this.searchinput.focus();
@@ -67,14 +61,6 @@ class Search extends Component {
       root: {
         width: '100%',
         marginTop: 72,
-      },
-      cancelButton: {
-        position: 'fixed',
-        right: 135,
-        marginTop: `${(dimensions.height === 0) ? (window.innerHeight - 180) : dimensions.height}px`,
-      },
-      leftIcon: {
-        marginRight: 5,
       },
       clearIcon: {
         position: 'absolute',
@@ -131,15 +117,6 @@ class Search extends Component {
             )) : null
           }
         </List>
-
-        <div style={styles.cancelButton}>
-
-          <Button onClick={this.handleCancel} raised color="accent">
-            <CancelIcon style={styles.leftIcon} />
-            Cancel
-          </Button>
-
-        </div>
 
       </div>
     )

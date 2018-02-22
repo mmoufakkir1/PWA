@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
 import Autosuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
@@ -65,7 +64,8 @@ class Home extends Component {
       <div>
 
       <Button 
-        fab color="primary" 
+        variant="fab"
+        color="primary" 
         aria-label="add" 
         style={styles.floatinButton}
         onClick={this.addNewLocation}
