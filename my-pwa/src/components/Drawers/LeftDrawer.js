@@ -203,7 +203,7 @@ class LeftDrawer extends Component {
                   color="inherit"
                   onClick={this.addNewLocation}
                 >
-                  <Typography type="button" color="inherit">
+                  <Typography variant="button" color="inherit">
                     Add Task Location
                 </Typography>
                 </Button>

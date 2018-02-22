@@ -147,7 +147,7 @@ class Project extends Component {
                   />
                   <ListItemText
                     disableTypography
-                    primary={<Typography type="title">{`${item.text}`}</Typography>}
+                    primary={<Typography variant="title">{`${item.text}`}</Typography>}
                   />
                 </ListItem>
                 <Divider />
@@ -189,22 +189,23 @@ class Project extends Component {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.closeForm} color="primary">
+
+            <Button onClick={this.closeForm} variant="raised" color="secondary">
               Cancel
             </Button>
-            <Button onClick={this.saveForm} color="primary">
-              Save
+            <Button onClick={this.saveForm} variant="raised" color="primary">
+            &nbsp;Save&nbsp; 
             </Button>
           </DialogActions>
         </Dialog>
 
         <Button 
+          variant="fab"
           id="btnAddTask" 
           color="primary"
           aria-label="add"
           style={styles.floatinButton}
           onClick={this.addNewTask}
-          // onKeyboardFocus={this.btnAddNewTask}
         >
           <AddIcon />
         </Button>

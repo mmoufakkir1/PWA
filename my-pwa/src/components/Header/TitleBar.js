@@ -82,7 +82,7 @@ class TitleBar extends Component {
             }
 
 
-            <Typography type="title" color="inherit" style={styles.flex} >
+            <Typography variant="headline" color="inherit" style={styles.flex} >
               {title}
             </Typography>
 
