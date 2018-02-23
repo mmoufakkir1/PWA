@@ -38,7 +38,7 @@ const reducer = (state = initState, action) => {
 
     case types.COMPLETE_TASK: 
       retVal = state.map(task => {
-        const isCompleted = !task.complete
+        const isCompleted = !task.completed
         return (task.id === payload.id) 
           ?
           {

@@ -34,7 +34,8 @@ const styles = {
   cancelButton: {
     position: 'absolute',
     bottom: 20,
-    right: 135
+    right: 135,
+    marginRight: 15,
   },
   leftIcon: {
     marginRight: 5,
@@ -116,12 +117,12 @@ class SearchLocations extends Component {
 
         <div>
 
-          <Button onClick={this.handleSave} style={styles.saveButton} raised dense>
+          <Button onClick={this.handleSave} style={styles.saveButton} variant="raised" color="primary">
             <SaveIcon style={styles.leftIcon} />
             &nbsp;Save&nbsp;  
           </Button>
 
-          <Button onClick={this.handleCancel} style={styles.cancelButton} raised color="accent">
+          <Button onClick={this.handleCancel} style={styles.cancelButton} variant="raised" color="secondary">
             <CancelIcon style={styles.leftIcon} />
             Cancel 
           </Button>

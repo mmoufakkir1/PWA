@@ -61,7 +61,7 @@ class TitleBar extends Component {
               (showBackButton) ? (
                 <IconButton
                   style={styles.menuButton}
-                  color="contrast"
+                  color="inherit"
                   onClick={this.handleBack}
                   aria-label="Menu">
                   <ArrowBackIcon />
@@ -73,7 +73,7 @@ class TitleBar extends Component {
               (showDrawer) ? (
                 <IconButton
                   style={styles.menuButton}
-                  color="contrast"
+                  color="inherit"
                   onClick={this.handleDrawerOpen}
                   aria-label="Menu">
                   <MenuIcon />
@@ -82,7 +82,7 @@ class TitleBar extends Component {
             }
 
 
-            <Typography type="title" color="inherit" style={styles.flex} >
+            <Typography variant="headline" color="inherit" style={styles.flex} >
               {title}
             </Typography>
 
@@ -90,7 +90,7 @@ class TitleBar extends Component {
               /*Search Icon Button*/
               (showSearchIcon) ? (
                 <IconButton
-                  color="contrast"
+                  color="inherit"
                   onClick={this.handleGotoSearch}
                 >
                   <SearchIcon />

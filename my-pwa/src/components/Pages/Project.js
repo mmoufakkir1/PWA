@@ -11,6 +11,10 @@ import AddIcon from 'material-ui-icons/Add';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
+import Radio, { RadioGroup } from 'material-ui/Radio';
+import Checkbox from 'material-ui/Checkbox';
+import green from 'material-ui/colors/green';
+
 import Dialog, {
   DialogActions,
   DialogContent,
@@ -27,6 +31,7 @@ import {
   findListById,
   store,
   isEqual,
+  playSound,
 } from '../../global';
 
 const styles = {
@@ -41,7 +46,10 @@ const styles = {
   },
   listViewItem: {
     padding: 15,
-  }
+  },
+  checked: {
+    color: green[500],
+  },
 }
 
 class Project extends Component {
@@ -82,9 +90,30 @@ class Project extends Component {
 
   }
 
+  handleOnRadioChangeTask = (e, checked) => {
+    const { value } = e.target;
+    if (!isEmpty(value)) {
+      const completedID = value.split('_').pop();
+      this.props.tasks.completeTask(completedID);
+      this.playAudio("toggle");
+    }
+
+  }
+
   handleOnChangeTask = (e) => {
     const { value } = e.target;
     this.setState({ taskName: value });
+
+  }
+
+  playAudio = (soundName) => {
+    switch (soundName) {
+      case "toggle":
+        this.toggleSound.pause();
+        this.toggleSound.currentTime = 0;
+        this.toggleSound.play();
+        break;
+    }
   }
 
   handleKeyPressTask = (e) => {
@@ -109,15 +138,19 @@ class Project extends Component {
           {
             (!isEmpty(filteredItems)) ? filteredItems.map(item => (
               <div key={item.id}>
-                <Paper elevation={4} square={true} >
-                  <ListItem dense button style={styles.listViewItem}>
-                    <ListItemText
-                      disableTypography
-                      primary={<Typography type="headline">{`${item.text}`}</Typography>}
-                    />
-                  </ListItem>
-                </Paper>
-
+                <ListItem dense button style={styles.listViewItem}>
+                  <Checkbox
+                    style={(item.completed) ? styles.checked : null}
+                    value={`task_${item.id}`}
+                    checked={item.completed}
+                    onChange={this.handleOnRadioChangeTask}
+                  />
+                  <ListItemText
+                    disableTypography
+                    primary={<Typography variant="title">{`${item.text}`}</Typography>}
+                  />
+                </ListItem>
+                <Divider />
               </div>
 
             )) : null
@@ -156,26 +189,30 @@ class Project extends Component {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.closeForm} color="primary">
+
+            <Button onClick={this.closeForm} variant="raised" color="secondary">
               Cancel
             </Button>
-            <Button onClick={this.saveForm} color="primary">
-              Save
+            <Button onClick={this.saveForm} variant="raised" color="primary">
+            &nbsp;Save&nbsp; 
             </Button>
           </DialogActions>
         </Dialog>
 
         <Button 
+          variant="fab"
           id="btnAddTask" 
-          fab color="primary"
+          color="primary"
           aria-label="add"
           style={styles.floatinButton}
           onClick={this.addNewTask}
-          // onKeyboardFocus={this.btnAddNewTask}
         >
           <AddIcon />
         </Button>
 
+        <audio ref={(toggleSound) => { this.toggleSound = toggleSound; }}>
+          <source src="toggle.mp3" type="audio/mpeg" ></source>
+        </audio>
 
       </div>
     );

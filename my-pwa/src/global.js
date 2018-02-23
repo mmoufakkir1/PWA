@@ -164,6 +164,11 @@ export function isEmpty(val) {
   return results;
 }
 
+export function playSound(embedId) {
+  const sound = document.getElementById(embedId);
+  sound.Play();
+}
+
 export function isEqual(value, other) {
   // Get the value type
   var type = Object.prototype.toString.call(value);
