@@ -143,3 +143,15 @@ export const updateProjects = (projects) => {
 }
 
 //<<---------End Projects
+export function updateUser(user) {
+  return {
+    type: types.UPDATE_USER,
+    payload: user,
+  };
+}
+export function updateLoginStatus(flag) {
+  return {
+    type: types.UPDATE_LOGIN_STATUS,
+    payload: flag,
+  };
+}
