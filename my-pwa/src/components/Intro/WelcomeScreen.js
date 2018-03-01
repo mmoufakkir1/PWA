@@ -115,7 +115,7 @@ class WelcomeScreen extends Component {
 
   handleClickShowPasssword = () => {
     this.setState({ showPassword: !this.state.showPassword });
-  }; 
+  };
 
   selectCategory(selectedCategory) {
     this.setState({
@@ -141,7 +141,7 @@ class WelcomeScreen extends Component {
       console.log(user);
     }
   }
-  
+
   render() {
     const {
       selectedCategory,
@@ -153,108 +153,133 @@ class WelcomeScreen extends Component {
       password,
       passwordConfirmation,
     } = this.state;
-    
-    let {isLogin,user} = this.props;
 
+    let { isLogin, user } = this.props;
+    
     const isLoginPage = selectedCategory === 0;
     const isSignUpPage = selectedCategory === 1;
+    const isPasswordRecovery = selectedCategory === 2;
 
+    console.log('isPasswordRecovery ' + isPasswordRecovery);
     const responseGoogle = (response) => {
       console.log("google console");
       console.log(response);
       this.signup(response, 'google');
     }
-    
+
     if (isLogin) return <App />;
 
-    return (
-      <div style={styles.root}>
-        <Grid container spacing={24}>
-          <Grid item xs={12}>
-            <TextField style={styles.textField}
-              id="email"
-              label="Email"
-              value={this.state.email}
-              onChange={this.handleChange('email')}
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField style={styles.textField}
-              id="password"
-              label="Password"
-              value={this.state.password}
-              type={this.state.showPassword ? 'text' : 'password'}
-              onChange={this.handleChange('password')}
-              margin="normal"
-            />
-          </Grid>
-          {isSignUpPage ?
+    if (!isPasswordRecovery) {
+      return (
+        <div style={styles.root}>
+          <Grid container spacing={24}>
             <Grid item xs={12}>
               <TextField style={styles.textField}
-                id="confirmpassword"
-                label="Confirm Password"
-                value={this.state.confirmpassword}
+                id="email"
+                label="Email"
+                value={this.state.email}
+                onChange={this.handleChange('email')}
+                margin="normal"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField style={styles.textField}
+                id="password"
+                label="Password"
+                value={this.state.password}
                 type={this.state.showPassword ? 'text' : 'password'}
                 onChange={this.handleChange('password')}
                 margin="normal"
               />
-            </Grid> : null}
-          <Grid item xs={12}>
-            <Button
-              variant="raised"
-              color="primary"
-              size="large"
-              style={styles.textField}
-              onClick={() => isLoginPage ? null : this.selectCategory(0)}
-            >
-              {isLoginPage ? 'LOGIN' : 'SIGN UP'}
-            </Button>
-          </Grid>
-          {isLoginPage ? null :
+            </Grid>
+            {isSignUpPage ?
+              <Grid item xs={12}>
+                <TextField style={styles.textField}
+                  id="confirmpassword"
+                  label="Confirm Password"
+                  value={this.state.confirmpassword}
+                  type={this.state.showPassword ? 'text' : 'password'}
+                  onChange={this.handleChange('password')}
+                  margin="normal"
+                />
+              </Grid> : null}
             <Grid item xs={12}>
-              <Button color="primary" onClick={() => this.selectCategory(0)}>
-                Already have an Account
+              <Button
+                variant="raised"
+                color="primary"
+                size="large"
+                style={styles.textField}
+                onClick={() => isLoginPage ? null : this.selectCategory(0)}
+              >
+                {isLoginPage ? 'LOGIN' : 'SIGN UP'}
+              </Button>
+            </Grid>
+            {isLoginPage ?
+              <Grid item xs={12}>
+                <Button color="primary" onClick={() => this.selectCategory(1)}>
+                  Create a free Account
+                </Button>
+                <Button color="primary" onClick={() => this.selectCategory(2)}>
+                  Forgot password?
+                </Button>
+              </Grid> :
+              <Grid item xs={12}>
+                <Button color="primary" onClick={() => this.selectCategory(0)}>
+                  Already have an Account
             </Button>
-            </Grid>}
-          <Grid item xs={12}>
-            <div style={styles.textField}
-              style={styles.lineDivStyle}>
-              <span
-                style={styles.lineSpanStyle}> OR </span>
-            </div>
-          </Grid>
-          <Grid item xs={12}>
-            <GoogleAPI clientId="748666747267-sqglnr9ubnfrangqjpjrlcpmn5jv89mi.apps.googleusercontent.com"
-              onUpdateSigninStatus={responseGoogleSigninStatus}
-              onInitFailure={responseGoogle}
-            >
-
-              <div>
-                <div><GoogleLogin
-                  onLoginSuccess={responseGoogle}
-                /></div>
+              </Grid>}
+            <Grid item xs={12}>
+              <div style={styles.textField}
+                style={styles.lineDivStyle}>
+                <span
+                  style={styles.lineSpanStyle}> OR </span>
               </div>
-            </GoogleAPI>
-          </Grid>
-          {isLoginPage ?
+            </Grid>
             <Grid item xs={12}>
-              <Button color="primary" onClick={() => this.selectCategory(1)}>
-                Create a free Account
-            </Button>
-            </Grid> : null}
-        </Grid>
-      </div>
-    );
+              <GoogleAPI clientId="748666747267-sqglnr9ubnfrangqjpjrlcpmn5jv89mi.apps.googleusercontent.com"
+                onUpdateSigninStatus={responseGoogleSigninStatus}
+                onInitFailure={responseGoogle}
+              >
+                <div>
+                  <div><GoogleLogin
+                    onLoginSuccess={responseGoogle}
+                  /></div>
+                </div>
+              </GoogleAPI>
+            </Grid>
+          </Grid>
+        </div>
+      );
+    }
+    
+    if (isPasswordRecovery) {
+      return (
+        <div style={styles.root}>
+          <Grid container spacing={24}>
+            <Grid item xs={12}>
+              <TextField style={styles.textField}
+                id="email"
+                label="Email"
+                value={this.state.email}
+                onChange={this.handleChange('email')}
+                margin="normal"
+              />            
+              <Button color="primary" onClick={() => this.selectCategory(0)}>
+                    Send password reset email
+              </Button>
+              </Grid>
+          </Grid>
+        </div>
+      );
+    }
   }
 }
-
-export default connect(
-  (state) => ({
-    user: state.global.user,
-    isLogin :state.global.isLogin,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(globalActions, dispatch),
-  })
-)(WelcomeScreen)
+    export default connect(
+      (state) => ({
+        user: state.global.user,
+        isLogin: state.global.isLogin,
+      }),
+      (dispatch) => ({
+        actions: bindActionCreators(globalActions, dispatch),
+      })
+    )(WelcomeScreen)
