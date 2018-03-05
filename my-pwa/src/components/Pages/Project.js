@@ -29,6 +29,7 @@ import * as keys from '../../constants/storageKeys';
 import {
   isEmpty,
   findListById,
+  findProjectByIdFirst,
   store,
   isEqual,
   playSound,
@@ -63,6 +64,12 @@ class Project extends Component {
     this.saveForm = this.saveForm.bind(this);
   }
 
+  componentDidMount() {
+    const { projects, projectid} = this.props;
+    const projectItem = findProjectByIdFirst(projects, projectid);
+    this.props.actions.updateTitle(projectItem.name);
+    
+  }
   addNewTask = () => {
     this.setState({ open: true });
   }
@@ -122,21 +129,36 @@ class Project extends Component {
       // to Focus- document.getElementById("myAnchor").focus();
       // to blur - document.getElementById("myAnchor").blur();
       // allow react rendering
-      setTimeout(function () {document.getElementById("btnAddTask").blur();}, 300);
+      setTimeout(function () { document.getElementById("btnAddTask").blur(); }, 300);
     }
   }
 
 
   render() {
-    const { title, taskItems, projectid } = this.props;
+    const { title, taskItems, projectid, projects } = this.props;
     const { taskName } = this.state;
 
+    const getItemText = (isCompleted, title) => {
+      return (
+        isCompleted ?
+          <strike>
+            <Typography variant="title">
+              {title}
+            </Typography>
+          </strike> :
+          <Typography variant="title">
+            {title}
+          </Typography>
+
+      )
+    }
     const taskList = () => {
       const filteredItems = findListById(taskItems, "projectId", projectid);
       return (
         <List>
           {
             (!isEmpty(filteredItems)) ? filteredItems.map(item => (
+
               <div key={item.id}>
                 <ListItem dense button style={styles.listViewItem}>
                   <Checkbox
@@ -147,7 +169,9 @@ class Project extends Component {
                   />
                   <ListItemText
                     disableTypography
-                    primary={<Typography variant="title">{`${item.text}`}</Typography>}
+                    primary={
+                      getItemText(item.completed, item.text)
+                    }
                   />
                 </ListItem>
                 <Divider />
@@ -194,14 +218,14 @@ class Project extends Component {
               Cancel
             </Button>
             <Button onClick={this.saveForm} variant="raised" color="primary">
-            &nbsp;Save&nbsp; 
+              &nbsp;Save&nbsp;
             </Button>
           </DialogActions>
         </Dialog>
 
-        <Button 
+        <Button
           variant="fab"
-          id="btnAddTask" 
+          id="btnAddTask"
           color="primary"
           aria-label="add"
           style={styles.floatinButton}
@@ -228,6 +252,7 @@ export default connect(
     options: state.global.options,
     drawerState: state.global.drawer,
     taskItems: state.tasks,
+    projects: state.global.projects,
 
   }),
   (dispatch) => ({
