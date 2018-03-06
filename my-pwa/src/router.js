@@ -18,6 +18,7 @@ export function getPage(selectedPage, options, actions) {
         break;
         
       case 'home':
+        actions.updateTitle("FindMyList");
         actions.updateShowDrawer(true);
         actions.updateShowBackButton(false);
         actions.updateSearchIcon(true);
@@ -43,6 +44,7 @@ export function getPage(selectedPage, options, actions) {
         break;
 
       case 'search':
+        actions.updateTitle("Search...");
         actions.updateSearchIcon(false);
         actions.updateShowDrawer(false);
         actions.updateShowBackButton(true);
