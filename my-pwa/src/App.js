@@ -69,8 +69,7 @@ class App extends Component {
       this.props.tasks.updateTasks(tasks)
       this.props.actions.updateProjects(items);
     }
-    store(keys.ONBOARDED, false)
-    //this.setState({ onboarded: true })
+    this.setState({ onboarded: store(keys.ONBOARDED) })
   }
 
   render() {
@@ -80,7 +79,7 @@ class App extends Component {
     const context = () => { return getPage(page, options, this.props.actions); };
    
     //if (loading) return null
-    if (!isLogin) return <WelcomeScreen />;
+    if (!isLogin && !onboarded) return <WelcomeScreen />;
 
     return (
       <div>

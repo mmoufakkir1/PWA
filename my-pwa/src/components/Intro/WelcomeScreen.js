@@ -138,6 +138,7 @@ class WelcomeScreen extends Component {
       };
       this.props.actions.updateUser(user);
       this.props.actions.updateLoginStatus(true);
+      store(keys.ONBOARDED, true);
       console.log(user);
     }
   }
