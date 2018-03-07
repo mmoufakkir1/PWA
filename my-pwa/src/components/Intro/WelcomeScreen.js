@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import Grid from 'material-ui/Grid';
-import { GoogleAPI, GoogleLogin, GoogleLogout, CustomGoogleLogin, CustomGoogleLogout } from 'react-google-oauth';
+import { GoogleAPI, GoogleLogin, GoogleLogout, CustomGoogleLogin,
+   CustomGoogleLogout } from 'react-google-oauth';
 import * as globalReducers from '../../reducers/global';
 import * as globalActions from '../../actions/global';
 import * as keys from '../../constants/storageKeys';
@@ -41,10 +42,6 @@ const styles = {
   }
 };
 
-const responseGoogleSigninStatus = (response) => {
-  console.log('responseGoogleSigninStatus ' + response);
-}
-
 class WelcomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -60,7 +57,7 @@ class WelcomeScreen extends Component {
     };
     this._signup = this._signup.bind(this);
   }
-
+   
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
   };
@@ -95,7 +92,6 @@ class WelcomeScreen extends Component {
       this.props.actions.updateUser(user);
       this.props.actions.updateLoginStatus(true);
       store(keys.ONBOARDED, true);
-      console.log(user);
     }
   }
 
@@ -116,14 +112,14 @@ class WelcomeScreen extends Component {
     const isLoginPage = selectedCategory === 0;
     const isSignUpPage = selectedCategory === 1;
     const isPasswordRecovery = selectedCategory === 2;
-
-    console.log('isPasswordRecovery ' + isPasswordRecovery);
+    
     const responseGoogle = (response) => {
-      console.log("google console");
-      console.log(response);
       this._signup(response, 'google');
     }
-
+    
+    const responseGoogleSigninStatus = (response) => {
+      console.log('responseGoogleSigninStatus ' + response);
+    }
     if (isLogin) return <App />;
 
     return (
@@ -195,8 +191,8 @@ class WelcomeScreen extends Component {
               </Grid>
               <Grid item xs={12}>
                 <GoogleAPI clientId="748666747267-sqglnr9ubnfrangqjpjrlcpmn5jv89mi.apps.googleusercontent.com"
-                  onUpdateSigninStatus={responseGoogleSigninStatus}
-                  onInitFailure={responseGoogle}
+                onUpdateSigninStatus={responseGoogleSigninStatus}
+                onInitFailure={responseGoogle}
                 >
                   <div>
                     <div><GoogleLogin
