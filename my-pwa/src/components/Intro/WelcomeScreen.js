@@ -5,30 +5,11 @@ import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import Grid from 'material-ui/Grid';
 import { GoogleAPI, GoogleLogin, GoogleLogout, CustomGoogleLogin, CustomGoogleLogout } from 'react-google-oauth';
-import { createMuiTheme } from 'material-ui/styles';
 import * as globalReducers from '../../reducers/global';
 import * as globalActions from '../../actions/global';
 import * as keys from '../../constants/storageKeys';
 import App from '../../App';
-import { store } from '../../global'
-
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#8e99f3',
-      main: '#5c6bc0',
-      dark: '#26418f',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
-      contrastText: '#000',
-    },
-  },
-});
+import { store } from '../../global';
 
 const styles = {
   root: {
@@ -40,24 +21,10 @@ const styles = {
     marginTop: 100,
     textAlign: 'center',
   },
-  logoField: {
-    height: '150px',
-    textAlign: 'center',
-    color: theme.palette.primary.contrastText,
-    backgroundColor: theme.palette.primary.main,
-  },
   textField: {
     width: '300px',
     paddingTop: 5,
     marginTop: 5,
-  },
-  buttonStyle: {
-    backgroundColor: '#1d72c6',
-    color: 'white',
-  },
-  itemLength: {
-    direction: 'row',
-    maxWidth: '300px',
   },
   lineDivStyle: {
     width: '100%',
