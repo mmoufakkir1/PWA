@@ -1,17 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import IconButton from 'material-ui/IconButton';
-import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
-import Visibility from 'material-ui-icons/Visibility';
-import VisibilityOff from 'material-ui-icons/VisibilityOff';
-import EventNote from 'material-ui-icons/EventNote';
-import { FormControl, FormHelperText } from 'material-ui/Form';
-import EmailIcon from 'material-ui-icons/Email';
 import Grid from 'material-ui/Grid';
 import { GoogleAPI, GoogleLogin, GoogleLogout, CustomGoogleLogin, CustomGoogleLogout } from 'react-google-oauth';
 import { createMuiTheme } from 'material-ui/styles';
@@ -20,8 +11,6 @@ import * as globalActions from '../../actions/global';
 import * as keys from '../../constants/storageKeys';
 import App from '../../App';
 import { store } from '../../global'
-//import { GoogleLogin  } from 'react-google-login';
-//import { GoogleLogin } from 'react-google-login-component';
 
 
 const theme = createMuiTheme({
@@ -102,7 +91,7 @@ class WelcomeScreen extends Component {
       isPasswordValid: false,
       isConfirmationValid: false,
     };
-    this.signup = this.signup.bind(this);
+    this._signup = this._signup.bind(this);
   }
 
   handleChange = prop => event => {
@@ -124,7 +113,7 @@ class WelcomeScreen extends Component {
     });
   }
 
-  signup(res, type) {
+  _signup(res, type) {
     let { user } = this.props;
 
     if (type === 'google' && res.w3.U3) {
@@ -165,7 +154,7 @@ class WelcomeScreen extends Component {
     const responseGoogle = (response) => {
       console.log("google console");
       console.log(response);
-      this.signup(response, 'google');
+      this._signup(response, 'google');
     }
 
     if (isLogin) return <App />;
