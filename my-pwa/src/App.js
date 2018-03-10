@@ -37,9 +37,6 @@ class App extends Component {
     window.addEventListener('resize', this.updateDimensions);
     const onBoarded = store(keys.ONBOARDED);
 
-    console.log(' componentWillMount onBoarded ' + this.state.onboarded);
-    console.log(' componentWillMount loading ' + this.state.loading);
-
     if (onBoarded) {
       this.setState({ loading: false })
     }
