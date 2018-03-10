@@ -8,6 +8,7 @@ import { store } from './global'
 import DetailPage from './components/Pages/Detail'
 import TitleBar from './components/Header/TitleBar'
 import Drawer from './components/Drawers/LeftDrawer'
+import WelcomeScreen from './components/Intro/WelcomeScreen'
 import Snackbar from 'material-ui/Snackbar';
 import Fade from 'material-ui/transitions/Fade';
 import * as globalActions from './actions/global';
@@ -35,6 +36,7 @@ class App extends Component {
   componentWillMount() {
     window.addEventListener('resize', this.updateDimensions);
     const onBoarded = store(keys.ONBOARDED);
+
     if (onBoarded) {
       this.setState({ loading: false })
     }
@@ -64,18 +66,17 @@ class App extends Component {
       this.props.tasks.updateTasks(tasks)
       this.props.actions.updateProjects(items);
     }
-    store(keys.ONBOARDED, true)
-    this.setState({ onboarded: true })
-
+    this.setState({ onboarded: store(keys.ONBOARDED) })
   }
 
   render() {
     const { onboarded, loading } = this.state
-    const { page, options, dialog, snackbar, showTitleBar } = this.props;
-    const context = () => {return getPage(page, options, this.props.actions);};
-
-    if (loading) return null
-    //see notes if(!onboarded) return <WelcomeScreen onPress={this.goToApp} />
+    const { page, options, dialog, snackbar, showTitleBar, isLogin } = this.props;
+    
+    const context = () => { return getPage(page, options, this.props.actions); };
+   
+    //if (loading) return null
+    if (!isLogin && !onboarded) return <WelcomeScreen />;
 
     return (
       <div>
@@ -139,6 +140,7 @@ export default connect(
     snackbar: state.global.snackbar,
     showTitleBar: state.global.showTitleBar,
     projectItems: state.projects,
+    isLogin : state.global.isLogin,
   }),
   (dispatch) => ({
     actions: bindActionCreators(globalActions, dispatch),

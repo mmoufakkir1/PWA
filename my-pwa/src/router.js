@@ -1,6 +1,7 @@
 import React from 'react';
 //-------------Pages--------------------------------
 import Home from './components/Pages/Home';
+import WelcomeScreen from './components/Intro/WelcomeScreen';
 import AboutUs from './components/Pages/AboutUs';
 import SearchLocations from './components/Pages/SearchLocations';
 import Search from './components/Pages/Search';
@@ -12,6 +13,10 @@ export function getPage(selectedPage, options, actions) {
   try {
     switch (selectedPage) {
 
+      case 'welcomeScreen':
+        page = (<WelcomeScreen />);
+        break;
+        
       case 'home':
         actions.updateTitle("FindMyList");
         actions.updateShowDrawer(true);

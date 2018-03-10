@@ -32,3 +32,7 @@ export const REMOVE_TASK = 'REMOVE_TASK';
 export const COMPLETE_TASK = 'COMPLETE_TASK';
 export const TOOGLE_ALL = 'TOOGLE_ALL';
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
+
+//--user Actions
+export const UPDATE_USER = 'UPDATE_USER';
+export const UPDATE_LOGIN_STATUS = 'UPDATE_LOGIN_STATUS';

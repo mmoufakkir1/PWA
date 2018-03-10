@@ -1,9 +1,9 @@
 import * as types from '../constants/actionTypes'
 import * as keys from '../constants/storageKeys';
-import { 
+import {
   newGuid,
   store,
-  isEmpty, 
+  isEmpty,
 } from '../global'
 
 const initGlobalState = {
@@ -43,6 +43,15 @@ const initGlobalState = {
   selectedProjectId: '',
   selectedTasks: [],
   projects: [],
+  user: {
+    name: '',
+    provider: '',
+    email: '',
+    provider_id: '',
+    token: '',
+    provider_pic: '',
+  },
+  isLogin: false,
 };
 
 export default function global(state = initGlobalState, action) {
@@ -139,7 +148,7 @@ export default function global(state = initGlobalState, action) {
       retVal.projects = [
         ...state.projects,
         {
-          id: _id, 
+          id: _id,
           name: payload.trim(),
           createdAt: new Date(),
           completedAt: null,
@@ -176,6 +185,16 @@ export default function global(state = initGlobalState, action) {
       });
       break;
 
+    case types.UPDATE_USER:
+      retVal = { ...state };
+      retVal.user = payload;
+      break;
+
+    case types.UPDATE_LOGIN_STATUS:
+      retVal = { ...state };
+      retVal.isLogin = payload;
+      break;
+
     //<------------End Projects
 
     default:
@@ -183,7 +202,7 @@ export default function global(state = initGlobalState, action) {
       break;
   }
 
-  if(!isEmpty(retVal.projects)) {
+  if (!isEmpty(retVal.projects)) {
     store(keys.PROJECTS, retVal.projects);
   }
 
