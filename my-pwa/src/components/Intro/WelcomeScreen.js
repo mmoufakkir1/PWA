@@ -11,6 +11,7 @@ import * as globalActions from '../../actions/global';
 import * as keys from '../../constants/storageKeys';
 import App from '../../App';
 import { store } from '../../global';
+import axiosService from '../../utils/api';
 
 const styles = {
   root: {
