@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Reboot from 'material-ui/CssBaseline';
+import Reboot from 'material-ui/Reboot';
 import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle, } from 'material-ui/Dialog';
 import { getPage } from './router';
 import { store } from './global'
