@@ -67,12 +67,10 @@ class WelcomeScreen extends Component {
         password: false,
       }
     };
-    this._signup = this._signup.bind(this);
+    this.googleSignup = this.googleSignup.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.HandleValidateInput = this.HandleValidateInput.bind(this);
   }
-
-
 
   selectCategory(selectedCategory) {
     this.setState({
@@ -81,32 +79,11 @@ class WelcomeScreen extends Component {
     });
   }
 
-  _signup(res, type) {
+  //google sign in
+  googleSignup(res, type) {
     let { user } = this.props;
 
     if (type === 'google' && res.w3.U3) {
-
-      // // debug model
-      // E1: "116491177335490318015"
-      // Zi:
-      //   access_token: "ya29.Gl2sBYtJqttytYHUiWEyXp0kmBQfa6Xd6E-icmiygGAZlMvhfn-XUriZQiY6YDHFQAaQjaAlYRg7uCeGgYafRfpJ4SIfSM6BiohWJ67dD-1m0xowA3B3EV13cRrIs7c"
-      //   expires_at: 1525006243119
-      //   expires_in: 3600
-      //   first_issued_at: 1525002643119
-      //   id_token: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImFmZmM2MjkwN2E0NDYxODJhZGMxZmE0ZTgxZmRiYTYzMTBkY2U2M2YifQ.eyJhenAiOiI3NDg2NjY3NDcyNjctc3FnbG5yOXVibmZyYW5ncWpwanJsY3BtbjVqdjg5bWkuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI3NDg2NjY3NDcyNjctc3FnbG5yOXVibmZyYW5ncWpwanJsY3BtbjVqdjg5bWkuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTY0OTExNzczMzU0OTAzMTgwMTUiLCJlbWFpbCI6Im1tb3VmYWtraXIyQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoidU5KTUgtdFJYWVV6aU1TdHZIcjR1ZyIsImV4cCI6MTUyNTAwNjI0MywiaXNzIjoiYWNjb3VudHMuZ29vZ2xlLmNvbSIsImp0aSI6IjIyYWQyZWViZWVlNWUwYmRlMmE2YjJhZTg4ZjlmYWM3NTMzMTIyYmYiLCJpYXQiOjE1MjUwMDI2NDMsIm5hbWUiOiJtbyBtbyIsInBpY3R1cmUiOiJodHRwczovL2xoNC5nb29nbGV1c2VyY29udGVudC5jb20vLWxpeUZMTXhva3p3L0FBQUFBQUFBQUFJL0FBQUFBQUFBQU00L0VhaDNYdjhmdC00L3M5Ni1jL3Bob3RvLmpwZyIsImdpdmVuX25hbWUiOiJtbyIsImZhbWlseV9uYW1lIjoibW8iLCJsb2NhbGUiOiJlbiJ9.L7GqI-wXn5c1ntBBU5eclZvciSPSfzp0CmNwHDk6RP-_rG9x5tlIPPM80sBtgryA9lho4Iy9cqcu-fspToUNLlnZUSd5bKQ700rDd_Tooqmw0QFy5gzIaGpKRXwk9MetD4DEP-Ya27ASWn1lAqyyZVN0Y11R9N8PAP5lBGRFP10R3w0sjiOWmIPb31QuPKv2n3AtJ32ovcGH1oVe3vcF_nbRpAvOYu2zboS-f94K3Kj7U42luJcJtFgyCDvkU1bjGB9gCm_BD3wfWEzNj8WLj7yt8TCUtLKSJlQV08rxI0WLZFEOsLzNmuXRux1bWoAIAWlpNVnHIrL-SoWH5h4V2w"
-      //   idpId: "google"
-      //   login_hint: "AJDLj6JUa8yxXrhHdWRHIV0S13cAqvyTleWrgTtSBHQJr4eF4bCRrinjpS8wYt6RJEdq4ORC-BojAuGwgVsYzL2pJd2mdvarfA"
-      //   scope: "https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid email profile"
-      //   session_state:  { extraQueryParams: { … } }
-      //   token_type: "Bearer"
-      // w3: PG
-      //   Eea: "116491177335490318015"
-      //   Paa: "https://lh4.googleusercontent.com/-liyFLMxokzw/AAAAAAAAAAI/AAAAAAAAAM4/Eah3Xv8ft-4/s96-c/photo.jpg"
-      //   U3: "mmoufakkir2@gmail.com"
-      //   ig: "mo mo"
-      //   ofa: "mo"
-      //   wea: "mo"
-
       user = {
         userName: res.w3.ig,
         email: res.w3.U3,
@@ -118,41 +95,37 @@ class WelcomeScreen extends Component {
     }
   }
 
+  // login and sign up
   handleLogin(set) {
-
     let { user } = this.props;
-
-    if (set) {
-      this.selectCategory(set);
-      console.log("Singup");
-      user = {
-        email: this.state.email,
-        passwordHash: this.state.password
-      }
-
-      axiosService.composerPost("user/Add", user).then(res => {
-        if (res.data.status == "ok") {
-          this.props.actions.updateUser(user);
-          this.props.actions.updateLoginStatus(true);
-          store(keys.ONBOARDED, true);
-        }
-
-      });
-    } else {
-      this.selectCategory(set)
-      console.log("login");
-      user = {
-        email: this.state.email,
-        passwordHash: this.state.password
-      }
-      axiosService.composerPost("user/Login", user).then(res => {
-        if (res.data.status == "ok") {
-          this.props.actions.updateUser(user);
-          this.props.actions.updateLoginStatus(true);
-          store(keys.ONBOARDED, true);
-        }
-      });
+    user = {
+      email: this.state.email,
+      passwordHash: this.state.password
     }
+
+    if (!this.state.errorShow) {
+      if (set) {
+        //sign up
+        this.selectCategory(set);
+        serviceAccessCall("user/Add");
+      } else {
+        //login
+        this.selectCategory(set);
+        serviceAccessCall("user/Login");
+      }
+    } else {
+      console.log("error");
+    }
+  }
+
+  serviceAccessCall(path) {
+    axiosService.composerPost(path, user).then(res => {
+      if (res.data.status == "ok") {
+        this.props.actions.updateUser(user);
+        this.props.actions.updateLoginStatus(true);
+        store(keys.ONBOARDED, true);
+      }
+    });
   }
 
   HandleValidateInput = prop => event => {
@@ -177,7 +150,6 @@ class WelcomeScreen extends Component {
       this.setState({ 'errorText': elm + " is not valid" });
       this.setState({ errorShow: { ...this.state.errorShow, [elm]: true } });
     }
-
   }
 
   handleChange = prop => event => {
@@ -204,12 +176,13 @@ class WelcomeScreen extends Component {
     const isPasswordRecovery = selectedCategory === 2;
 
     const responseGoogle = (response) => {
-      this._signup(response, 'google');
+      this.googleSignup(response, 'google');
     }
 
     const responseGoogleSigninStatus = (response) => {
       console.log('responseGoogleSigninStatus ' + response);
     }
+
     if (isLogin) return <App />;
 
     return (
