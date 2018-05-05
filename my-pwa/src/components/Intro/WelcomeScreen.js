@@ -54,22 +54,28 @@ class WelcomeScreen extends Component {
     this.state = {
       email: '',
       password: '',
-      confirmpassword: '',
+      confirmPassword: '',
       name: '',
       selectedCategory: 0,
       isLoading: false,
       isEmailValid: false,
       isPasswordValid: false,
       isConfirmationValid: false,
-      errorText: '',
+      errorText: {
+        email: '',
+        password: '',
+        confirmPassword:''
+      },
       errorShow: {
         email: false,
         password: false,
+        confirmPassword:false,
       }
     };
     this.googleSignup = this.googleSignup.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.HandleValidateInput = this.HandleValidateInput.bind(this);
+    this.serviceAccessCall = this.serviceAccessCall.bind(this);
   }
 
   selectCategory(selectedCategory) {
@@ -107,23 +113,27 @@ class WelcomeScreen extends Component {
       if (set) {
         //sign up
         this.selectCategory(set);
-        serviceAccessCall("user/Add");
+        this.serviceAccessCall("user/Add", user);
       } else {
         //login
         this.selectCategory(set);
-        serviceAccessCall("user/Login");
+        this.serviceAccessCall("user/Login", user);
       }
     } else {
+      //TODO'S error
       console.log("error");
     }
   }
 
-  serviceAccessCall(path) {
+  serviceAccessCall(path, user) {
     axiosService.composerPost(path, user).then(res => {
       if (res.data.status == "ok") {
         this.props.actions.updateUser(user);
         this.props.actions.updateLoginStatus(true);
         store(keys.ONBOARDED, true);
+      } else {
+        //TODO'S error
+        console.log("error");
       }
     });
   }
@@ -138,7 +148,7 @@ class WelcomeScreen extends Component {
         vCheck = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
           ? true : false;
         break;
-      case 'password':
+      case 'password' || 'confirmPassword':
         vCheck = value.length >= 6 ? true : false;
         break;
     }
@@ -147,7 +157,7 @@ class WelcomeScreen extends Component {
       this.setState({ errorShow: { ...this.state.errorShow, [elm]: false } });
     }
     else {
-      this.setState({ 'errorText': elm + " is not valid" });
+      this.setState({ errorText: { ...this.state.errorText, [elm]:  elm +' not valid' } });
       this.setState({ errorShow: { ...this.state.errorShow, [elm]: true } });
     }
   }
@@ -196,7 +206,7 @@ class WelcomeScreen extends Component {
               onChange={this.handleChange('email')}
               onBlur={this.HandleValidateInput('email')}
               margin="normal"
-              helperText={this.state.errorText}
+              helperText={this.state.errorText.email}
               error={this.state.errorShow.email}
               required
             />
@@ -212,7 +222,7 @@ class WelcomeScreen extends Component {
                   onChange={this.handleChange('password')}
                   onBlur={this.HandleValidateInput('password')}
                   margin="normal"
-                  helperText={this.state.errorText}
+                  helperText={this.state.errorText.password}
                   error={this.state.errorShow.password}
                   required
                 />
@@ -220,14 +230,15 @@ class WelcomeScreen extends Component {
               {isSignUpPage ?
                 <Grid item xs={12}>
                   <TextField style={styles.textField}
-                    id="confirmpassword"
+                    id="confirmPassword"
                     label="Confirm Password"
-                    value={this.state.confirmpassword}
+                    value={this.state.confirmPassword}
                     type='password'
-                    onChange={this.handleChange('confirmpassword')}
+                    onChange={this.handleChange('confirmPassword')}
+                    onBlur={this.HandleValidateInput('confirmPassword')}
                     margin="normal"
-                    helperText={this.state.errorText}
-                    error={this.state.errorShow.password}
+                    helperText={this.state.errorText.confirmPassword}
+                    error={this.state.errorShow.confirmPassword}
                     required
                   />
                 </Grid> : null}
