@@ -42,6 +42,9 @@ const styles = {
     fontSize: '20px',
     backgroundColor: '#fff',
     padding: '0 5px'
+  },
+  error: {
+    borderBottom: '1px solid red',
   }
 };
 
@@ -58,22 +61,18 @@ class WelcomeScreen extends Component {
       isEmailValid: false,
       isPasswordValid: false,
       isConfirmationValid: false,
+      errorText: '',
+      errorShow: {
+        email: false,
+        password: false,
+      }
     };
     this._signup = this._signup.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.HandleValidateInput = this.HandleValidateInput.bind(this);
   }
 
-  handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
-  };
 
-  handleMouseDownPassword = event => {
-    event.preventDefault();
-  };
-
-  handleClickShowPasssword = () => {
-    this.setState({ showPassword: !this.state.showPassword });
-  };
 
   selectCategory(selectedCategory) {
     this.setState({
@@ -154,9 +153,38 @@ class WelcomeScreen extends Component {
         }
       });
     }
+  }
 
+  HandleValidateInput = prop => event => {
+    const elm = [prop];
+    const value = event.target.value;
+    let vCheck = false;
+
+    switch (elm.toString()) {
+      case 'email':
+        vCheck = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
+          ? true : false;
+        break;
+      case 'password':
+        vCheck = value.length >= 6 ? true : false;
+        break;
+    }
+
+    if (vCheck) {
+      this.setState({ errorShow: { ...this.state.errorShow, [elm]: false } });
+    }
+    else {
+      this.setState({ 'errorText': elm + " is not valid" });
+      this.setState({ errorShow: { ...this.state.errorShow, [elm]: true } });
+    }
 
   }
+
+  handleChange = prop => event => {
+    this.setState({ [prop]: event.target.value });
+    console.log(event.target.value)
+  };
+
   render() {
     const {
       selectedCategory,
@@ -193,7 +221,11 @@ class WelcomeScreen extends Component {
               label="Email"
               value={this.state.email}
               onChange={this.handleChange('email')}
+              onBlur={this.HandleValidateInput('email')}
               margin="normal"
+              helperText={this.state.errorText}
+              error={this.state.errorShow.email}
+              required
             />
           </Grid>
           {!isPasswordRecovery ?
@@ -203,9 +235,13 @@ class WelcomeScreen extends Component {
                   id="password"
                   label="Password"
                   value={this.state.password}
-                  type={this.state.showPassword ? 'text' : 'password'}
+                  type='password'
                   onChange={this.handleChange('password')}
+                  onBlur={this.HandleValidateInput('password')}
                   margin="normal"
+                  helperText={this.state.errorText}
+                  error={this.state.errorShow.password}
+                  required
                 />
               </Grid>
               {isSignUpPage ?
@@ -214,9 +250,12 @@ class WelcomeScreen extends Component {
                     id="confirmpassword"
                     label="Confirm Password"
                     value={this.state.confirmpassword}
-                    type={this.state.showPassword ? 'text' : 'password'}
+                    type='password'
                     onChange={this.handleChange('confirmpassword')}
                     margin="normal"
+                    helperText={this.state.errorText}
+                    error={this.state.errorShow.password}
+                    required
                   />
                 </Grid> : null}
               <Grid item xs={12}>

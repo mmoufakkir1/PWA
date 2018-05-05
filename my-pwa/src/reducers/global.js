@@ -54,6 +54,7 @@ const initGlobalState = {
     userName:'',
     email:'',
     phoneNumber:'',
+    passwordHash:'',
     company:'',
     jobTitle:'',
     faxPhone:'',
