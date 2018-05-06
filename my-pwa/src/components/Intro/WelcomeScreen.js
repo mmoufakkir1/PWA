@@ -43,8 +43,10 @@ const styles = {
     backgroundColor: '#fff',
     padding: '0 5px'
   },
-  error: {
-    borderBottom: '1px solid red',
+  errorLabel: {
+    width: '100%',
+    textAlign: 'center',
+    alignItems: 'center'
   }
 };
 
@@ -58,18 +60,17 @@ class WelcomeScreen extends Component {
       name: '',
       selectedCategory: 0,
       isLoading: false,
-      isEmailValid: false,
-      isPasswordValid: false,
-      isConfirmationValid: false,
+      isErrorLoginText: false,
+      errorLoginText: '',
       errorText: {
         email: '',
         password: '',
-        confirmPassword:''
+        confirmPassword: ''
       },
       errorShow: {
         email: false,
         password: false,
-        confirmPassword:false,
+        confirmPassword: false,
       }
     };
     this.googleSignup = this.googleSignup.bind(this);
@@ -109,7 +110,7 @@ class WelcomeScreen extends Component {
       passwordHash: this.state.password
     }
 
-    if (!this.state.errorShow) {
+    if (!this.state.errorShow.password && !this.state.errorShow.email) {
       if (set) {
         //sign up
         this.selectCategory(set);
@@ -121,20 +122,26 @@ class WelcomeScreen extends Component {
       }
     } else {
       //TODO'S error
-      console.log("error");
+      this.setState({ isErrorLoginText: true });
+      this.setState({ errorLoginText: "Please address the above errors" });
+      console.log("Please address the above errors");
     }
   }
 
   serviceAccessCall(path, user) {
+    console.log('here');
     axiosService.composerPost(path, user).then(res => {
       if (res.data.status == "ok") {
         this.props.actions.updateUser(user);
         this.props.actions.updateLoginStatus(true);
         store(keys.ONBOARDED, true);
-      } else {
-        //TODO'S error
-        console.log("error");
       }
+    }).catch(err => {
+      //TODO'S error
+      this.setState({ isErrorLoginText: true });
+      this.setState({ errorLoginText: err.toString() });
+      console.log(err);
+
     });
   }
 
@@ -157,23 +164,32 @@ class WelcomeScreen extends Component {
       this.setState({ errorShow: { ...this.state.errorShow, [elm]: false } });
     }
     else {
-      this.setState({ errorText: { ...this.state.errorText, [elm]:  elm +' not valid' } });
+      this.setState({ errorText: { ...this.state.errorText, [elm]: elm + ' not valid' } });
       this.setState({ errorShow: { ...this.state.errorShow, [elm]: true } });
     }
   }
 
   handleChange = prop => event => {
+    this.setState({
+      isErrorLoginText: false,
+      errorShow: {
+        email: false,
+        password: false,
+        confirmPassword: false,
+      },
+      errorText: {
+        email: '',
+        password: '',
+        confirmPassword: ''
+      },
+    });
     this.setState({ [prop]: event.target.value });
-    console.log(event.target.value)
   };
 
   render() {
     const {
       selectedCategory,
       isLoading,
-      isEmailValid,
-      isPasswordValid,
-      isConfirmationValid,
       email,
       password,
       passwordConfirmation,
@@ -252,6 +268,14 @@ class WelcomeScreen extends Component {
                 >
                   {isLoginPage ? 'LOGIN' : 'SIGN UP'}
                 </Button>
+                {this.state.isErrorLoginText ?
+                  <TextField
+                    style={styles.errorLabel}
+                    id="errorLoginText"
+                    type="label"
+                    value={this.state.errorLoginText}
+                    error={this.state.isErrorLoginText}
+                  /> : ''}
               </Grid>
               {isLoginPage ?
                 <Grid item xs={12}>
