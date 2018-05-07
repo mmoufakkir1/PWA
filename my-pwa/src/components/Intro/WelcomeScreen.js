@@ -46,7 +46,9 @@ const styles = {
   errorLabel: {
     width: '100%',
     textAlign: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    color: 'red',
+    fontWeight: 'bold'
   }
 };
 
@@ -57,7 +59,6 @@ class WelcomeScreen extends Component {
       email: '',
       password: '',
       confirmPassword: '',
-      name: '',
       selectedCategory: 0,
       isLoading: false,
       isErrorLoginText: false,
@@ -86,11 +87,13 @@ class WelcomeScreen extends Component {
     });
   }
 
-  //google sign in
   googleSignup(res, type) {
+    //handles google sign in
     let { user } = this.props;
 
     if (type === 'google' && res.w3.U3) {
+    console.log(res);
+      
       user = {
         userName: res.w3.ig,
         email: res.w3.U3,
@@ -102,8 +105,8 @@ class WelcomeScreen extends Component {
     }
   }
 
-  // login and sign up
   handleLogin(set) {
+    //handle our back end login and sign up
     let { user } = this.props;
     user = {
       email: this.state.email,
@@ -121,31 +124,33 @@ class WelcomeScreen extends Component {
         this.serviceAccessCall("user/Login", user);
       }
     } else {
-      //TODO'S error
+      // error
       this.setState({ isErrorLoginText: true });
       this.setState({ errorLoginText: "Please address the above errors" });
-      console.log("Please address the above errors");
     }
   }
 
   serviceAccessCall(path, user) {
-    console.log('here');
+    //api call to the back end
     axiosService.composerPost(path, user).then(res => {
       if (res.data.status == "ok") {
         this.props.actions.updateUser(user);
         this.props.actions.updateLoginStatus(true);
         store(keys.ONBOARDED, true);
+      } else {
+        this.setState({ isErrorLoginText: true });
+        this.setState({ errorLoginText: res.data.msg.toString() });
       }
     }).catch(err => {
-      //TODO'S error
+      // error
       this.setState({ isErrorLoginText: true });
       this.setState({ errorLoginText: err.toString() });
-      console.log(err);
 
     });
   }
 
   HandleValidateInput = prop => event => {
+    //validate input and set error states
     const elm = [prop];
     const value = event.target.value;
     let vCheck = false;
@@ -170,6 +175,7 @@ class WelcomeScreen extends Component {
   }
 
   handleChange = prop => event => {
+    //reset all the view props on item change
     this.setState({
       isErrorLoginText: false,
       errorShow: {
@@ -183,7 +189,15 @@ class WelcomeScreen extends Component {
         confirmPassword: ''
       },
     });
+
     this.setState({ [prop]: event.target.value });
+
+    if (this.state.email.length > 0 && this.state.password.length > 0)
+      this.setState({ isLoginDisabled: false });
+    else
+      this.setState({ isLoginDisabled: true });
+
+    console.log(this.state.isLoginDisabled);
   };
 
   render() {
@@ -269,13 +283,10 @@ class WelcomeScreen extends Component {
                   {isLoginPage ? 'LOGIN' : 'SIGN UP'}
                 </Button>
                 {this.state.isErrorLoginText ?
-                  <TextField
+                  <p
                     style={styles.errorLabel}
                     id="errorLoginText"
-                    type="label"
-                    value={this.state.errorLoginText}
-                    error={this.state.isErrorLoginText}
-                  /> : ''}
+                  >{this.state.errorLoginText}</p> : ''}
               </Grid>
               {isLoginPage ?
                 <Grid item xs={12}>
