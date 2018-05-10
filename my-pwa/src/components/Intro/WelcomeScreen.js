@@ -161,7 +161,6 @@ class WelcomeScreen extends Component {
       // error
       this.setState({ isErrorLoginText: true });
       this.setState({ errorLoginText: err.toString() });
-
     });
   }
 
@@ -170,17 +169,21 @@ class WelcomeScreen extends Component {
     const elm = [prop];
     const value = event.target.value;
     let vCheck = false;
+    let errorText = '';
 
     switch (elm.toString()) {
       case 'email':
         vCheck = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
           ? true : false;
+        errorText = "Not a valid Email";
         break;
       case 'password':
         vCheck = value.length >= 6 ? true : false;
+        errorText = "Not a valid Password";
         break;
       case 'confirmPassword':
         vCheck = (value.length >= 6 ? true : false) && this.state.confirmPassword === this.state.password;
+        errorText = "Password does not match";
         break;
     }
 
@@ -192,7 +195,7 @@ class WelcomeScreen extends Component {
       this.setState({ errorShow: { ...this.state.errorShow, [elm]: false } });
     }
     else {
-      this.setState({ errorText: { ...this.state.errorText, [elm]: elm + ' not valid' } });
+      this.setState({ errorText: { ...this.state.errorText, [elm]: errorText } });
       this.setState({ errorShow: { ...this.state.errorShow, [elm]: true } });
     }
   }
@@ -212,15 +215,8 @@ class WelcomeScreen extends Component {
         confirmPassword: ''
       },
     });
-
+    
     this.setState({ [prop]: event.target.value });
-
-    if (this.state.email.length > 0 && this.state.password.length > 0)
-      this.setState({ isLoginDisabled: false });
-    else
-      this.setState({ isLoginDisabled: true });
-
-    console.log(this.state.isLoginDisabled);
   };
 
   render() {
