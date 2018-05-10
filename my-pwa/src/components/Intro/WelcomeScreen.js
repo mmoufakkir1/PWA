@@ -87,6 +87,8 @@ class WelcomeScreen extends Component {
       isLoading: false,
       email: '',
       password: '',
+      isErrorLoginText: false,
+      errorLoginText: '',
       confirmPassword: '',
       errorText: {
         email: '',
