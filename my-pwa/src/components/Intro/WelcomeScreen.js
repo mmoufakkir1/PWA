@@ -63,6 +63,7 @@ class WelcomeScreen extends Component {
       isLoading: false,
       isErrorLoginText: false,
       errorLoginText: '',
+      vCheck: false,
       errorText: {
         email: '',
         password: '',
@@ -84,6 +85,19 @@ class WelcomeScreen extends Component {
     this.setState({
       selectedCategory,
       isLoading: false,
+      email: '',
+      password: '',
+      confirmPassword: '',
+      errorText: {
+        email: '',
+        password: '',
+        confirmPassword: ''
+      },
+      errorShow: {
+        email: false,
+        password: false,
+        confirmPassword: false,
+      }
     });
   }
 
@@ -92,8 +106,8 @@ class WelcomeScreen extends Component {
     let { user } = this.props;
 
     if (type === 'google' && res.w3.U3) {
-    console.log(res);
-      
+      console.log(res);
+
       user = {
         userName: res.w3.ig,
         email: res.w3.U3,
@@ -113,7 +127,7 @@ class WelcomeScreen extends Component {
       passwordHash: this.state.password
     }
 
-    if (!this.state.errorShow.password && !this.state.errorShow.email) {
+    if (!this.state.errorShow.password && !this.state.errorShow.email && this.state.vCheck) {
       if (set) {
         //sign up
         this.selectCategory(set);
@@ -160,10 +174,17 @@ class WelcomeScreen extends Component {
         vCheck = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
           ? true : false;
         break;
-      case 'password' || 'confirmPassword':
+      case 'password':
         vCheck = value.length >= 6 ? true : false;
         break;
+      case 'confirmPassword':
+        vCheck = (value.length >= 6 ? true : false) && this.state.confirmPassword === this.state.password;
+        break;
     }
+
+    this.setState({
+      vCheck: vCheck,
+    })
 
     if (vCheck) {
       this.setState({ errorShow: { ...this.state.errorShow, [elm]: false } });
@@ -279,6 +300,8 @@ class WelcomeScreen extends Component {
                   size="large"
                   style={styles.textField}
                   onClick={() => isLoginPage ? this.handleLogin(0) : this.handleLogin(1)}
+                  disabled={isLoginPage ? (this.state.email.length > 2 && this.state.password.length > 2) ? false : true
+                    : (this.state.email.length > 2 && this.state.confirmPassword.length > 2 && this.state.password.length > 2) ? false : true}
                 >
                   {isLoginPage ? 'LOGIN' : 'SIGN UP'}
                 </Button>
