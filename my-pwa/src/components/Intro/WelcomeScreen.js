@@ -79,8 +79,18 @@ class WelcomeScreen extends Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.HandleValidateInput = this.HandleValidateInput.bind(this);
     this.serviceAccessCall = this.serviceAccessCall.bind(this);
+    this.responseGoogle = this.responseGoogle.bind(this);
+    this.responseGoogleSigninStatus = this.responseGoogleSigninStatus.bind(this);
+  }
+  
+   responseGoogle = (response) => {
+    this.googleSignup(response, 'google');
   }
 
+   responseGoogleSigninStatus = (response) => {
+    console.log('responseGoogleSigninStatus ' + response);
+  }
+  
   selectCategory(selectedCategory) {
     this.setState({
       selectedCategory,
@@ -232,15 +242,7 @@ class WelcomeScreen extends Component {
 
     const isLoginPage = selectedCategory === 0;
     const isSignUpPage = selectedCategory === 1;
-    const isPasswordRecovery = selectedCategory === 2;
-
-    const responseGoogle = (response) => {
-      this.googleSignup(response, 'google');
-    }
-
-    const responseGoogleSigninStatus = (response) => {
-      console.log('responseGoogleSigninStatus ' + response);
-    }
+    const isPasswordRecovery = selectedCategory === 2;   
 
     if (isLogin) return <App />;
 
@@ -332,12 +334,12 @@ class WelcomeScreen extends Component {
               </Grid>
               <Grid item xs={12}>
                 <GoogleAPI clientId="748666747267-sqglnr9ubnfrangqjpjrlcpmn5jv89mi.apps.googleusercontent.com"
-                  onUpdateSigninStatus={responseGoogleSigninStatus}
-                  onInitFailure={responseGoogle}
+                  onUpdateSigninStatus={this.responseGoogleSigninStatus}
+                  onInitFailure={this.responseGoogle}
                 >
                   <div>
                     <div><GoogleLogin
-                      onLoginSuccess={responseGoogle}
+                      onLoginSuccess={this.responseGoogle}
                     /></div>
                   </div>
                 </GoogleAPI>
