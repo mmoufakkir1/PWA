@@ -14,6 +14,10 @@ const initGlobalState = {
     height: 0,
     width: 0
   },
+  geoLocation: {
+    latitude: 0,
+    longitude: 0,
+  },
   title: 'FindMyList',
   subTitle: '',
   showTitleBar: true,
@@ -44,31 +48,31 @@ const initGlobalState = {
   selectedTasks: [],
   projects: [],
   user: {
-    status:'',
-    msg:'',
-    userID:'',
-    gender:'',
-    firstName:'',
-    lastName:'',
-    appName:'',
-    userName:'',
-    email:'',
-    phoneNumber:'',
-    passwordHash:'',
-    company:'',
-    jobTitle:'',
-    faxPhone:'',
-    mobilePhone:'',
-    address1:'',
-    address2:'',
-    apartmentNumber:'',
-    cityOrProvince:'',
-    zipOrPostalCode:'',
-    webPage:'',
-    notes:'',
-    avatar:'',
-    birthDay:'',
-    memberSince:''
+    status: '',
+    msg: '',
+    userID: '',
+    gender: '',
+    firstName: '',
+    lastName: '',
+    appName: '',
+    userName: '',
+    email: '',
+    phoneNumber: '',
+    passwordHash: '',
+    company: '',
+    jobTitle: '',
+    faxPhone: '',
+    mobilePhone: '',
+    address1: '',
+    address2: '',
+    apartmentNumber: '',
+    cityOrProvince: '',
+    zipOrPostalCode: '',
+    webPage: '',
+    notes: '',
+    avatar: '',
+    birthDay: '',
+    memberSince: ''
   },
   isLogin: false,
 };
@@ -214,6 +218,10 @@ export default function global(state = initGlobalState, action) {
       retVal.isLogin = payload;
       break;
 
+    case types.GET_GEOLOCATION:
+      retVal = { ...state };
+      retVal.geoLocation = payload;
+      break;
     //<------------End Projects
 
     default:

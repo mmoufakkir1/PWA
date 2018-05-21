@@ -15,15 +15,18 @@ import App from '../../App';
 import { store } from '../../global';
 import axiosService from '../../utils/api';
 
+import GeoLocation from "../GeoLocation/GeoLocation";
+
 const styles = {
   root: {
     flexGrow: 1,
     direction: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
+    width: '96%',
     marginTop: 100,
     textAlign: 'center',
+    height:'100%'
   },
   textField: {
     width: '300px',
@@ -247,7 +250,8 @@ class WelcomeScreen extends Component {
     if (isLogin) return <App />;
 
     return (
-      <div style={styles.root}>
+         <div style={styles.root}>
+            <GeoLocation/>
         <Grid container spacing={24}>
           <Grid item xs={12}>
             <TextField style={styles.textField}
@@ -336,6 +340,7 @@ class WelcomeScreen extends Component {
                 <GoogleAPI clientId="748666747267-sqglnr9ubnfrangqjpjrlcpmn5jv89mi.apps.googleusercontent.com"
                   onUpdateSigninStatus={this.responseGoogleSigninStatus}
                   onInitFailure={this.responseGoogle}
+                  uxMode="redirect" 
                 >
                   <div>
                     <div><GoogleLogin
