@@ -23,7 +23,7 @@ const styles = {
     direction: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '96%',
+    width: '94%',
     marginTop: 100,
     textAlign: 'center',
     height:'100%'
@@ -340,7 +340,6 @@ class WelcomeScreen extends Component {
                 <GoogleAPI clientId="748666747267-sqglnr9ubnfrangqjpjrlcpmn5jv89mi.apps.googleusercontent.com"
                   onUpdateSigninStatus={this.responseGoogleSigninStatus}
                   onInitFailure={this.responseGoogle}
-                  uxMode="redirect" 
                 >
                   <div>
                     <div><GoogleLogin
