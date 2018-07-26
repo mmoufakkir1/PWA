@@ -155,3 +155,10 @@ export function updateLoginStatus(flag) {
     payload: flag,
   };
 }
+
+export function getGeoLocation(geoLocation) {
+  return {
+    type: types.GET_GEOLOCATION,
+    payload: geoLocation,
+  };
+}

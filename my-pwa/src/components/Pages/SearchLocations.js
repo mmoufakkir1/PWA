@@ -81,8 +81,8 @@ class SearchLocations extends Component {
         const uri = `${apiUrl}/autocomplete?q=${newValue}`;
         axios.get(uri).then((response) => {
           if (!isEmpty(response.data)) {
-            for (let i = 0; i < response.data.length; i++) {
-              suggestionList.push(response.data[i].shortName)
+            for (let i = 0; i < response.data.result.length; i++) {
+              suggestionList.push(response.data.result[i].shortName)
             }
           }
           this.props.actions.updateSearchSuggestions(suggestionList);

@@ -121,6 +121,7 @@ class LeftDrawer extends Component {
   render() {
 
     const {
+      user,
       drawerState,
       projectItems,
     } = this.props;
@@ -129,9 +130,12 @@ class LeftDrawer extends Component {
       <div>
         <Card style={styles.card}>
           <CardHeader
-            avatar={
+            avatar={user.avatar ?
+              <Avatar aria-label="Recipe" src={user.avatar}>
+              </Avatar>
+              :
               <Avatar aria-label="Recipe" style={styles.avatar}>
-                CP
+                {user.email[0] + user.email[1]}
               </Avatar>
             }
             action={
@@ -139,8 +143,7 @@ class LeftDrawer extends Component {
                 <MoreVertIcon />
               </IconButton>
             }
-            title="Carlos Perez"
-            subheader="perezca6576@yahoo.com"
+            title={user.email}
           />
         </Card>
       </div>
@@ -218,6 +221,7 @@ class LeftDrawer extends Component {
 
 export default connect(
   (state) => ({
+    user: state.global.user,
     page: state.global.page,
     options: state.global.options,
     drawerState: state.global.drawer,

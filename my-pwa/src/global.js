@@ -1,5 +1,5 @@
 //**VARIABLES**/
-export const apiUrl = 'http://www.spartanappsolutions.com:9000';
+export const apiUrl = 'http://localhost:9000';
 export const appEnv = 'Development';
 
 /***Global Functions */

@@ -36,3 +36,6 @@ export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 //--user Actions
 export const UPDATE_USER = 'UPDATE_USER';
 export const UPDATE_LOGIN_STATUS = 'UPDATE_LOGIN_STATUS';
+
+//--GeoLocation
+export const GET_GEOLOCATION = 'GET_GEOLOCATION';
